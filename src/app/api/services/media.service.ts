@@ -8,6 +8,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { FileData } from '../models/file-data';
 import { FileUpload } from '../models/file-upload';
 import { MultipartFile } from '../models/multipart-file';
 import { UploadResponse } from '../models/upload-response';
@@ -265,6 +266,52 @@ export class MediaService extends BaseService {
 
     return this.mediaContentFileIdGet$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation mediaContentListLastUploadedGet
+   */
+  static readonly MediaContentListLastUploadedGetPath = '/media/content/list/last_uploaded';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `mediaContentListLastUploadedGet()` instead.
+   *
+   * This method doesn't expect any response body
+   */
+  mediaContentListLastUploadedGet$Response(params?: {
+
+  }): Observable<StrictHttpResponse<Array<FileData>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListLastUploadedGetPath, 'get');
+    if (params) {
+
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<FileData>>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `mediaContentListLastUploadedGet$Response()` instead.
+   *
+   * This method doesn't expect any response body
+   */
+  mediaContentListLastUploadedGet(params?: {
+
+  }): Observable<Array<FileData>> {
+
+    return this.mediaContentListLastUploadedGet$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }
 

@@ -6,7 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { MediaService } from './services/media.service';
 
 /**
- * Module that provides all commons and configuration.
+ * Module that provides all services and configuration.
  */
 @NgModule({
   imports: [],
@@ -30,7 +30,7 @@ export class ApiModule {
     }
   }
 
-  constructor(
+  constructor( 
     @Optional() @SkipSelf() parentModule: ApiModule,
     @Optional() http: HttpClient
   ) {

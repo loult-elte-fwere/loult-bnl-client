@@ -3,7 +3,7 @@ import { ApiConfiguration } from './api-configuration';
 import { HttpClient } from '@angular/common/http';
 
 /**
- * Base class for commons
+ * Base class for services
  */
 export class BaseService {
   constructor(
