@@ -11,6 +11,10 @@ import { ContentTileComponent } from './components/content-tile/content-tile.com
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import {NgxMasonryModule} from 'ngx-masonry';
+import { UsernameComponent } from './components/username/username.component';
+import {ApiModule} from './api/api.module';
+import {environment} from '../environments/environment';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -27,13 +31,16 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     HeaderBarComponent,
     ContentTileComponent,
     UserPageComponent,
-    ContentPageComponent
+    ContentPageComponent,
+    UsernameComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxMasonryModule
+    NgxMasonryModule,
+    ApiModule.forRoot({rootUrl: environment.api_root})
   ],
   providers: [
     ApiInterceptor,

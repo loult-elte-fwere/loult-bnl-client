@@ -1,1 +1,10 @@
-<p>content-tile works!</p>
+<div>
+  <img *ngIf="fileData.file_type === 'image' " [src]="miniatureLink()" [alt]="fileData.title">
+  <audio *ngIf="fileData.file_type === 'audio'" controls>
+    <source [src]="audioLink()" type="audio/ogg">
+  </audio>
+  <p>
+    Soumise le {{ fileData.upload_time | date}}
+    par <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
+  </p>
+</div>

@@ -3,14 +3,12 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Observable, EMPTY} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {RoleProvider} from './role-provider';
-import {MatSnackBar} from '@angular/material';
 
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(
     private roleProvider: RoleProvider,
-    private snackBar: MatSnackBar
   ) {
   }
 
@@ -21,7 +19,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Apply the headers
-    const token = this.roleProvider.getToken();
+    const token = this.roleProvider.getCookie();
     req = req.clone({
       setHeaders: {
         'Auth-token': `${token}`
@@ -30,7 +28,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
     // If the request is on the /downloads/ service, use the browser's download service
     if (req.url.match('\/downloads')) {
-      req = req.clone({setParams: {token: this.roleProvider.getToken()}});
+      req = req.clone({setParams: {token: this.roleProvider.getCookie()}});
       return ApiInterceptor.download(req.urlWithParams);
     }
 
@@ -66,9 +64,6 @@ export class ApiInterceptor implements HttpInterceptor {
             console.log(err);
           }
         }
-        this.snackBar.open(errorMsg,
-          'Error',
-          {verticalPosition: 'top', duration: 15 * 1000});
       })
     );
   }

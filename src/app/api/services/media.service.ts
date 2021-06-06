@@ -270,6 +270,55 @@ export class MediaService extends BaseService {
   }
 
   /**
+   * Path part for operation mediaContentImageMiniatureFileIdGet
+   */
+  static readonly MediaContentImageMiniatureFileIdGetPath = '/media/content/image/miniature/{file_id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `mediaContentImageMiniatureFileIdGet()` instead.
+   *
+   * This method doesn't expect any response body
+   */
+  mediaContentImageMiniatureFileIdGet$Response(params: {
+    fileId: string;
+
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentImageMiniatureFileIdGetPath, 'get');
+    if (params) {
+
+      rb.path('file_id', params.fileId);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `mediaContentImageMiniatureFileIdGet$Response()` instead.
+   *
+   * This method doesn't expect any response body
+   */
+  mediaContentImageMiniatureFileIdGet(params: {
+    fileId: string;
+
+  }): Observable<void> {
+
+    return this.mediaContentImageMiniatureFileIdGet$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation mediaContentListLastUploadedGet
    */
   static readonly MediaContentListLastUploadedGetPath = '/media/content/list/last_uploaded';
