@@ -4,3 +4,18 @@
   font-family: "Pokemon Classic";
   src: local("Pokemon Classic"), url("./assets/fonts/Pokemon Classic.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "Ubuntu Light";
+  src: local("Ubuntu Light"), url("./assets/fonts/Ubuntu-Light.ttf") format("truetype");
+}
+
+body {
+  font-family: "Ubuntu Light", "Roboto Light", sans-serif;
+  background-color: #d3d3d3;
+  margin: 0;
+}
+
+.bnl-button {
+  cursor: pointer;
+}

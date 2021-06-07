@@ -6,8 +6,9 @@ import { NgxMasonryOptions } from 'ngx-masonry';
 
 const masonryOptions = {
   horizontalOrder: true,
-  columnWidth: 150,
-  originTop: true
+  gutter: 20,
+  originTop: true,
+  // fitWidth: true
 } as NgxMasonryOptions;
 
 @Component({
