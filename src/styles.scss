@@ -10,8 +10,13 @@
   src: local("Ubuntu Light"), url("./assets/fonts/Ubuntu-Light.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Ubuntu Regular";
+  src: local("Ubuntu Regular"), url("./assets/fonts/Ubuntu-Regular.ttf") format("truetype");
+}
+
 body {
-  font-family: "Ubuntu Light", "Roboto Light", sans-serif;
+  font-family: "Ubuntu Regular", "Roboto Light", sans-serif;
   background-color: #d3d3d3;
   margin: 0;
 }

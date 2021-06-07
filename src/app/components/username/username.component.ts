@@ -15,4 +15,12 @@ export class UsernameComponent implements OnInit {
   ngOnInit() {
   }
 
+  getColor() {
+    return 'color : ' + this.userData.color;
+  }
+
+  getImg() {
+    return 'assets/images/pokemon/small/' + this.userData.img_id + '.gif';
+  }
+
 }

@@ -15,6 +15,8 @@ import { UsernameComponent } from './components/username/username.component';
 import {ApiModule} from './api/api.module';
 import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -40,7 +42,9 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     AppRoutingModule,
     HttpClientModule,
     NgxMasonryModule,
-    ApiModule.forRoot({rootUrl: environment.api_root})
+    ApiModule.forRoot({rootUrl: environment.api_root}),
+    NgbPopoverModule,
+    FormsModule
   ],
   providers: [
     ApiInterceptor,

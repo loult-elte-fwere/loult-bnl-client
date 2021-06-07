@@ -5,25 +5,53 @@
 }
 
 #bn-title {
-  grid-column-start: 2;
-  grid-column-end: 5;
+  grid-column: 2 / 5;
   font-family: "Pokemon Classic";
-  font-size: small;
+  font-size: 1rem;
   overflow-wrap: normal;
+  padding-top: 5px;
 }
 
 #submit-file {
-  grid-column-start: 5;
-  grid-column-end: 7;
-}
-#record-audio {
-  grid-column-start: 7;
-  grid-column-end: 9;
+  grid-column: 5 / 7;
 }
 
-#login-button {
-  grid-column-start: 11;
-  grid-column-end: 13;
+#record-audio {
+  grid-column: 7 / 9;
+}
+
+#logout-button {
+  grid-column: 11 / 13;
+}
+
+#login-block {
+  grid-column: 10 / 13;
+  display: flex;
+
+  input {
+    border-radius: 50px 0 0 50px;
+    border: 1px solid #0985ff;
+    height: 50px;
+    color: #0985ff;
+    background-color: white;
+    width: 60%;
+    padding-left: 10px;
+  }
+
+  button {
+    border-radius: 0 50px 50px 0;
+    width: 40%;
+    border: 1px solid #0985ff;
+    height: 50px;
+    color: #0985ff;
+    background-color: white;
+  }
+}
+
+bnl-username {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 2;
 }
 
 #bnl-nav {
@@ -32,7 +60,7 @@
   grid-gap: 10px;
 }
 
-#login-button {
+#logout-button {
   border-radius: 30px;
   border: 1px solid #0985ff;
   height: 50px;
@@ -40,24 +68,28 @@
   background-color: white;
 }
 
-#login-button:hover {
+#logout-button:hover {
   background-color: lightblue;
 }
 
 .upload-button {
+  font-weight: 300;
+  font-size: 0.9rem;
   border: None;
   height: 50px;
   color: #0985ff;
   background-color: white;
   display: inline-block;
+
   img {
     display: inline;
     height: 40px;
     vertical-align: middle;
   }
+
   span {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px ;
+    margin-left: 10px;
   }
 }

@@ -1,51 +1,39 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserData} from '../api/models/user-data';
+import {UsersService} from '../api/services/users.service';
+import {EventsService} from './events.service';
+import {CookieStorageService} from './cookie-storage.service';
 
 
 @Injectable({providedIn: 'root'})
 export class RoleProvider {
-  private userData: UserData;
-  private userCookie: string;
+  public userData: UserData;
 
   constructor(
-    // replace by UserService
-    // private accountsService: AccountsService,
+    private usersService: UsersService,
+    private cookieService: CookieStorageService,
+    private eventsService: EventsService
   ) {
-  }
-
-  public getCookie(): string {
-    return window.localStorage.getItem('userCookie');
-  }
-
-  public isLogged() {
-    // this.userToken = window.localStorage.getItem('token');
-    // return this.userToken != undefined;
-  }
-
-  public async getUserData() {
-    /*if (this.userData) {
-      return this.userData;
-    } else {
-      this.userData = await this.accountsService.accountsDataGet().toPromise();
-      window.localStorage.setItem('userData', JSON.stringify(this.userData));
-      return this.userData;
-    }*/
-  }
-
-  private loadUserData() {
-    if (!this.userData) {
-      this.userData = JSON.parse(window.localStorage.getItem('userData')) as UserData;
+    this.cookieService.loadCookie();
+    if (this.cookieService.userCookie !== undefined) {
+      this.login();
     }
   }
 
-  public setCookie(cookie: string) {
-    window.localStorage.setItem('userCookie', cookie);
-    // this.getUserData().then((data) => this.eventsService.logInEvent.emit(true));
+  public isLogged(): boolean {
+    return this.userData !== undefined;
+  }
+
+  public login() {
+    this.usersService.usersDataGet().subscribe(data => {
+      this.userData = data;
+      this.eventsService.userLogin.emit(this.userData);
+    });
   }
 
   public logout() {
     window.localStorage.clear();
     this.userData = undefined;
-    // this.eventsService.logInEvent.emit(false);
+    this.eventsService.userLogout.emit();
   }
 }

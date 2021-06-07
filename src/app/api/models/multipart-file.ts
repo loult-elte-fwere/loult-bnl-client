@@ -1,4 +1,5 @@
 /* tslint:disable */
-export interface MultipartFile  {
+/* eslint-disable */
+export interface MultipartFile {
   file: Blob;
 }

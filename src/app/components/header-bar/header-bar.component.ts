@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {RoleProvider} from '../../services/role-provider';
+import {CookieStorageService} from '../../services/cookie-storage.service';
 
 @Component({
   selector: 'bnl-header-bar',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header-bar.component.scss']
 })
 export class HeaderBarComponent implements OnInit {
+  cookie: string;
 
-  constructor() { }
+  constructor(
+    public roleProvider: RoleProvider,
+    private cookieService: CookieStorageService,
+  ) { }
 
   ngOnInit() {
   }
+
+  login(){
+    this.cookieService.setCookie(this.cookie);
+    this.roleProvider.login();
+  }
+
 
 }

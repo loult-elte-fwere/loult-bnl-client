@@ -1,5 +1,6 @@
 /* tslint:disable */
-export interface FileUpload  {
+/* eslint-disable */
+export interface FileUpload {
   payload: string;
   title?: string;
 }

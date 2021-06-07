@@ -1,9 +1,11 @@
 /* tslint:disable */
+/* eslint-disable */
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { MediaService } from './services/media.service';
+import { UsersService } from './services/users.service';
 
 /**
  * Module that provides all services and configuration.
@@ -14,6 +16,7 @@ import { MediaService } from './services/media.service';
   declarations: [],
   providers: [
     MediaService,
+    UsersService,
     ApiConfiguration
   ],
 })

@@ -3,12 +3,13 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Observable, EMPTY} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {RoleProvider} from './role-provider';
+import {CookieStorageService} from './cookie-storage.service';
 
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(
-    private roleProvider: RoleProvider,
+    private cookieService: CookieStorageService,
   ) {
   }
 
@@ -19,18 +20,14 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Apply the headers
-    const token = this.roleProvider.getCookie();
+    const token = this.cookieService.userCookie;
+    console.log(token);
     req = req.clone({
       setHeaders: {
-        'Auth-token': `${token}`
+        Loultcookie: `${token}`
       },
     });
 
-    // If the request is on the /downloads/ service, use the browser's download service
-    if (req.url.match('\/downloads')) {
-      req = req.clone({setParams: {token: this.roleProvider.getCookie()}});
-      return ApiInterceptor.download(req.urlWithParams);
-    }
 
     return next.handle(req).pipe(
       tap(x => x, err => {

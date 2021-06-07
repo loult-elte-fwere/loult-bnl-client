@@ -9,5 +9,10 @@
     <img src="assets/images/icons/micro.svg">
     <span>Enregistrement audio</span>
   </button>
-  <button id="login-button" class="bnl-button">Identifiant/Cookie</button>
+  <div *ngIf="!roleProvider.isLogged()" id="login-block">
+    <input [(ngModel)]="cookie"  (keyup.enter)="login()" placeholder="Donne mou le cookie">
+    <button class="bnl-button" (click)="login()">Valider</button>
+  </div>
+  <button *ngIf="roleProvider.isLogged()" (click)="roleProvider.logout()" id="logout-button" class="bnl-button">Déconnexion</button>
+  <bnl-username *ngIf="roleProvider.isLogged()" [userData]="roleProvider.userData"></bnl-username>
 </div>

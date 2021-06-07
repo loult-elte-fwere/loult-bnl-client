@@ -1,1 +1,5 @@
-<span> {{userData.pokename}} {{userData.adjective}}</span>
+<span [style]="getColor()"
+      ngbPopover="Un pd" placement="right" triggers="mouseenter:mouseleave">
+  <img [src]="getImg()" [alt]="userData.pokename + ' ' + userData.adjective">
+  {{userData.pokename}} {{userData.adjective}}
+</span>

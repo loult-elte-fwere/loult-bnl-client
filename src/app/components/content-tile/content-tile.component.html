@@ -4,7 +4,7 @@
     <source [src]="audioLink()" type="audio/ogg">
   </audio>
   <p class="submission-info">
-    Soumise le {{ fileData.upload_time | date}}
+    Soumise le {{ fileData.upload_time | date}} <br/>
     par <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
   </p>
 </div>
