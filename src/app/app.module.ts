@@ -16,7 +16,8 @@ import {ApiModule} from './api/api.module';
 import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { UploadModalComponent } from './components/upload-modal/upload-modal.component';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -34,7 +35,8 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     ContentTileComponent,
     UserPageComponent,
     ContentPageComponent,
-    UsernameComponent
+    UsernameComponent,
+    UploadModalComponent
   ],
   imports: [
     BrowserModule,

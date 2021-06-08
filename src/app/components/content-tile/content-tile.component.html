@@ -1,6 +1,6 @@
 <div class="content-tile">
   <img *ngIf="fileData.file_type === 'image' " [src]="miniatureLink()" [alt]="fileData.title">
-  <audio *ngIf="fileData.file_type === 'audio'" controls>
+  <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
     <source [src]="audioLink()" type="audio/ogg">
   </audio>
   <p class="submission-info">

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {RoleProvider} from '../../services/role-provider';
 import {CookieStorageService} from '../../services/cookie-storage.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {UploadModalComponent} from '../upload-modal/upload-modal.component';
 
 @Component({
   selector: 'bnl-header-bar',
@@ -13,6 +15,7 @@ export class HeaderBarComponent implements OnInit {
   constructor(
     public roleProvider: RoleProvider,
     private cookieService: CookieStorageService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -21,6 +24,10 @@ export class HeaderBarComponent implements OnInit {
   login(){
     this.cookieService.setCookie(this.cookie);
     this.roleProvider.login();
+  }
+
+  openUploadModal() {
+    const modalRef = this.modalService.open(UploadModalComponent);
   }
 
 
