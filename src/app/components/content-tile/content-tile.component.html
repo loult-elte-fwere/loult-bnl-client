@@ -3,8 +3,27 @@
   <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
     <source [src]="audioLink()" type="audio/ogg">
   </audio>
+  <h2 *ngIf="fileData.title"> {{fileData.title}}</h2>
+  <div class="actions">
+    <button [disabled]="!roleProvider.userData.permissions.can_archive"
+    (click)="archiveToggle()">
+      <img [src]="archiveIcon()" [ngbTooltip]="archiveActionToolTip()">
+    </button>
+    <button (click)="copyLink()" ngbTooltip="Copier le lien">
+      <img src="assets/images/icons/copy_url.png">
+    </button>
+  </div>
+  <ul *ngIf="fileData.tags && fileData.tags.length > 0" class="tags-list">
+    <li *ngFor="let tag of fileData.tags">
+      <bnl-tag [tagData]="tag"></bnl-tag>
+    </li>
+  </ul>
   <p class="submission-info">
     Soumise le {{ fileData.upload_time | date}} <br/>
     par <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
+    <ng-container *ngIf="fileData.archivist && fileData.archivist != fileData.uploaded_by">
+      <br/>
+      et archivée par <bnl-username [userData]="fileData.archivist"></bnl-username>
+    </ng-container>
   </p>
 </div>

@@ -1,12 +1,14 @@
 /* tslint:disable */
 /* eslint-disable */
-import { Roles } from './roles';
+import { Permissions } from './permissions';
 export interface UserData {
   adjective: string;
+  archived_files_count?: number;
   color: string;
   img_id: string;
+  permissions?: Permissions;
   pokename: string;
   role_names?: Array<string>;
-  roles_rights?: Roles;
+  uploaded_files_count?: number;
   userid: string;
 }

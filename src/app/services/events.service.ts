@@ -7,6 +7,7 @@ import {UserData} from '../api/models/user-data';
 export class EventsService {
   public userLogin: EventEmitter<UserData> = new EventEmitter<UserData>();
   public userLogout: EventEmitter<void> = new EventEmitter();
+  public fileUploaded: EventEmitter<void> = new  EventEmitter<void>();
 
   constructor() { }
 }

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HomepageComponent} from './components/homepage/homepage.component';
+import {ContentWallComponent} from './components/content-wall/content-wall.component';
 
 
 const routes: Routes = [
-  {path: 'last', component: HomepageComponent},
+  {path: 'last', component: ContentWallComponent},
   {path: '', redirectTo: 'last', pathMatch: 'full'}
 ];
 

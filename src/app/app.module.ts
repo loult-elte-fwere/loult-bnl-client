@@ -1,23 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {forwardRef, NgModule, Provider} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomepageComponent } from './components/homepage/homepage.component';
+import { ClipboardModule } from 'ngx-clipboard';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {ApiInterceptor} from './services/api-interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import { HeaderBarComponent } from './components/header-bar/header-bar.component';
-import { ContentTileComponent } from './components/content-tile/content-tile.component';
-import { UserPageComponent } from './components/user-page/user-page.component';
-import { ContentPageComponent } from './components/content-page/content-page.component';
+import {HeaderBarComponent} from './components/header-bar/header-bar.component';
+import {ContentTileComponent} from './components/content-tile/content-tile.component';
+import {UserPageComponent} from './components/user-page/user-page.component';
+import {ContentPageComponent} from './components/content-page/content-page.component';
 import {NgxMasonryModule} from 'ngx-masonry';
-import { UsernameComponent } from './components/username/username.component';
+import {UsernameComponent} from './components/username/username.component';
 import {ApiModule} from './api/api.module';
 import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { UploadModalComponent } from './components/upload-modal/upload-modal.component';
+import {NgbPopoverModule, NgbToastModule, NgbTooltipModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {UploadModalComponent} from './components/upload-modal/upload-modal.component';
+import {ContentWallComponent} from './components/content-wall/content-wall.component';
+import {SubmissionPropertiesEditorComponent} from './components/submission-properties-editor/submission-properties-editor.component';
+import {TagComponent} from './components/tag/tag.component';
+import {ToastContainerComponent} from './components/toast-container/toast-container.component';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -30,13 +34,16 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent,
+    ContentWallComponent,
     HeaderBarComponent,
     ContentTileComponent,
     UserPageComponent,
     ContentPageComponent,
     UsernameComponent,
-    UploadModalComponent
+    UploadModalComponent,
+    SubmissionPropertiesEditorComponent,
+    TagComponent,
+    ToastContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +53,11 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     NgxMasonryModule,
     ApiModule.forRoot({rootUrl: environment.api_root}),
     NgbPopoverModule,
-    FormsModule
+    FormsModule,
+    NgbTypeaheadModule,
+    NgbToastModule,
+    NgbTooltipModule,
+    ClipboardModule
   ],
   providers: [
     ApiInterceptor,

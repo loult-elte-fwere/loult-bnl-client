@@ -1,13 +1,31 @@
 <div class="modal-header">
-  <h4 class="modal-title">Hi there!</h4>
+  <h4 class="modal-title">Soumettre une archive</h4>
 </div>
 <div class="modal-body">
-  <form>
-      <input type="file" (change)="handleFileInput($event.target.files)"/>
-      <button type="submit" (click)="uploadFile()">Envoyer</button>
+  <ng-container *ngIf="fileUrl">
+    <img *ngIf="fileUrl !== undefined && selectedFile.type.startsWith('image')" [src]="fileUrl">
+    <audio *ngIf="selectedFile.type.startsWith('audio')" controls preload="none">
+      <source [src]="fileUrl" type="audio/ogg">
+    </audio>
+  </ng-container>
+
+  <p *ngIf="fileUploaded"> Fichier envoyé!</p>
+  <form (keydown.enter)="$event.preventDefault()">
+    <div class="input-group">
+      <label class="input-group-text" for="file-input">Fichier</label>
+      <input type="file"  class="form-control" id="file-input" (change)="handleFileInput($event.target.files)"/>
+
+    </div>
+
+    <bnl-submission-properties-editor [(contentMetadata)]="fileMetadata"></bnl-submission-properties-editor>
+
+    <button [disabled]="uploading" type="submit" (click)="loadFile()"
+            class="btn btn-primary">Envoyer</button>
   </form>
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">
+    Fermer
+  </button>
 </div>

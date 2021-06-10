@@ -1,0 +1,29 @@
+<div class="input-group">
+  <span class="input-group-text" id="title">Titre</span>
+  <input type="text" class="form-control" placeholder="Titre pour cette oeuvre"
+         id="title-input" name="title"
+         [(ngModel)]="contentMetadata.title"
+         aria-label="Titre">
+</div>
+
+<div *ngIf="roleProvider.userData.permissions.can_archive" class="form-check">
+  <input type="checkbox" id="archive-input" name="archive" class="form-check-input"
+         [(ngModel)]="contentMetadata.archive"
+         checked>
+  <label for="archive-input" class="form-check-label">Archiver le fichier</label>
+</div>
+<div *ngIf="roleProvider.userData.permissions.can_tag" class="input-group">
+  <span class="input-group-text" id="tags-label">Tags</span>
+  <input id="tags-input" type="text" class="form-control"
+         (keyup.enter)="addTag()"
+         placeholder="Ajoutez des tags avec ⏎ "
+         [(ngModel)]="currentTag" [ngbTypeahead]="search"/>
+</div>
+
+<ul class="tags-list" *ngIf="roleProvider.userData.permissions.can_tag">
+  <li *ngFor="let tag of this.contentMetadata.tags; let tagIdx=index;"
+      class="tag">
+    <bnl-tag [tagName]="tag"></bnl-tag>
+    <i (click)="deleteTag(tagIdx)" class="btn btn-secondary btn-sm">✕</i>
+  </li>
+</ul>

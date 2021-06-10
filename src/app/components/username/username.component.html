@@ -1,5 +1,11 @@
+<ng-template #popTitle><b>{{userData.role_names.join(', ')}}</b></ng-template>
+<ng-template #popContent >{{userData.uploaded_files_count}} envoyés, {{userData.archived_files_count}} archivés</ng-template>
+
 <span [style]="getColor()"
-      ngbPopover="Un pd" placement="right" triggers="mouseenter:mouseleave">
+      [ngbPopover]="popContent"
+      [popoverTitle]="popTitle"
+      popoverClass="user-popover"
+      placement="top" triggers="mouseenter:mouseleave">
   <img [src]="getImg()" [alt]="userData.pokename + ' ' + userData.adjective">
   {{userData.pokename}} {{userData.adjective}}
 </span>

@@ -25,7 +25,7 @@ export class RoleProvider {
   }
 
   public login() {
-    this.usersService.usersDataGet().subscribe(data => {
+    this.usersService.usersDataCurrentGet().subscribe(data => {
       this.userData = data;
       this.eventsService.userLogin.emit(this.userData);
     });
