@@ -302,6 +302,52 @@ export class MediaService extends BaseService {
   }
 
   /**
+   * Path part for operation mediaContentDataFileIdGet
+   */
+  static readonly MediaContentDataFileIdGetPath = '/media/content/data/{file_id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `mediaContentDataFileIdGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentDataFileIdGet$Response(params: {
+    file_id: string;
+  }): Observable<StrictHttpResponse<FileData>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentDataFileIdGetPath, 'get');
+    if (params) {
+      rb.path('file_id', params.file_id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<FileData>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `mediaContentDataFileIdGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentDataFileIdGet(params: {
+    file_id: string;
+  }): Observable<FileData> {
+
+    return this.mediaContentDataFileIdGet$Response(params).pipe(
+      map((r: StrictHttpResponse<FileData>) => r.body as FileData)
+    );
+  }
+
+  /**
    * Path part for operation mediaContentListLastUploadedGet
    */
   static readonly MediaContentListLastUploadedGetPath = '/media/content/list/last_uploaded';
@@ -345,23 +391,69 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * Path part for operation mediaContentDeleteDelete
+   * Path part for operation mediaContentListTagTagNameGet
    */
-  static readonly MediaContentDeleteDeletePath = '/media/content/delete';
+  static readonly MediaContentListTagTagNameGetPath = '/media/content/list/tag/{tag_name}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `mediaContentDeleteDelete()` instead.
+   * To access only the response body, use `mediaContentListTagTagNameGet()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  mediaContentDeleteDelete$Response(params: {
-    body: FileData
+  mediaContentListTagTagNameGet$Response(params: {
+    tag_name: string;
+  }): Observable<StrictHttpResponse<Array<FileData>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListTagTagNameGetPath, 'get');
+    if (params) {
+      rb.path('tag_name', params.tag_name, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<FileData>>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `mediaContentListTagTagNameGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentListTagTagNameGet(params: {
+    tag_name: string;
+  }): Observable<Array<FileData>> {
+
+    return this.mediaContentListTagTagNameGet$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
+    );
+  }
+
+  /**
+   * Path part for operation mediaContentDeleteFileIdDelete
+   */
+  static readonly MediaContentDeleteFileIdDeletePath = '/media/content/delete/{file_id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `mediaContentDeleteFileIdDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentDeleteFileIdDelete$Response(params: {
+    file_id: string;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentDeleteDeletePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentDeleteFileIdDeletePath, 'delete');
     if (params) {
-      rb.body(params.body, 'application/json');
+      rb.path('file_id', params.file_id, {});
     }
 
     return this.http.request(rb.build({
@@ -377,15 +469,15 @@ export class MediaService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `mediaContentDeleteDelete$Response()` instead.
+   * To access the full response (for headers, for example), `mediaContentDeleteFileIdDelete$Response()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  mediaContentDeleteDelete(params: {
-    body: FileData
+  mediaContentDeleteFileIdDelete(params: {
+    file_id: string;
   }): Observable<void> {
 
-    return this.mediaContentDeleteDelete$Response(params).pipe(
+    return this.mediaContentDeleteFileIdDelete$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

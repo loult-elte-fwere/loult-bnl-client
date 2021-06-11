@@ -9,7 +9,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HeaderBarComponent} from './components/header-bar/header-bar.component';
 import {ContentTileComponent} from './components/content-tile/content-tile.component';
 import {UserPageComponent} from './components/user-page/user-page.component';
-import {ContentPageComponent} from './components/content-page/content-page.component';
 import {NgxMasonryModule} from 'ngx-masonry';
 import {UsernameComponent} from './components/username/username.component';
 import {ApiModule} from './api/api.module';
@@ -22,6 +21,9 @@ import {ContentWallComponent} from './components/content-wall/content-wall.compo
 import {SubmissionPropertiesEditorComponent} from './components/submission-properties-editor/submission-properties-editor.component';
 import {TagComponent} from './components/tag/tag.component';
 import {ToastContainerComponent} from './components/toast-container/toast-container.component';
+import { TagPageComponent } from './components/tag-page/tag-page.component';
+import { ContentPageComponent } from './components/content-page/content-page.component';
+import { EditModalComponent } from './components/edit-modal/edit-modal.component';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -38,12 +40,14 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     HeaderBarComponent,
     ContentTileComponent,
     UserPageComponent,
-    ContentPageComponent,
     UsernameComponent,
     UploadModalComponent,
     SubmissionPropertiesEditorComponent,
     TagComponent,
-    ToastContainerComponent
+    ToastContainerComponent,
+    TagPageComponent,
+    ContentPageComponent,
+    EditModalComponent
   ],
   imports: [
     BrowserModule,

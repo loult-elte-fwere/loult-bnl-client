@@ -1,1 +1,4 @@
-<span><span class="tag-prefix">3615</span> {{this.tagData ? this.tagData.name : this.tagName}}</span>
+<span [routerLink]="['/tag', getTagName()]" class="tag-badge">
+  <span class="tag-prefix">3615</span>
+  <span class="tag-name">{{getTagName()}}</span>
+</span>

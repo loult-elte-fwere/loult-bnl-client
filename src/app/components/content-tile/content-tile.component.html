@@ -1,12 +1,14 @@
-<div class="content-tile">
-  <img *ngIf="fileData.file_type === 'image' " [src]="miniatureLink()" [alt]="fileData.title">
+<div class="content-tile" *ngIf="fileData">
+  <img *ngIf="fileData.file_type === 'image' "
+       [routerLink]="['/archive', fileData.file_id]"
+       [src]="miniatureLink()" [alt]="fileData.title">
   <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
     <source [src]="audioLink()" type="audio/ogg">
   </audio>
-  <h2 *ngIf="fileData.title"> {{fileData.title}}</h2>
+  <h2 *ngIf="fileData.title" [routerLink]="['/archive', fileData.file_id]"> {{fileData.title}}</h2>
   <div class="actions">
-    <button [disabled]="!roleProvider.userData.permissions.can_archive"
-    (click)="archiveToggle()">
+    <button [disabled]="roleProvider.isLogged() && !roleProvider.userData.permissions.can_archive"
+            (click)="archiveToggle()">
       <img [src]="archiveIcon()" [ngbTooltip]="archiveActionToolTip()">
     </button>
     <button (click)="copyLink()" ngbTooltip="Copier le lien">
@@ -19,11 +21,27 @@
     </li>
   </ul>
   <p class="submission-info">
-    Soumise le {{ fileData.upload_time | date}} <br/>
-    par <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
-    <ng-container *ngIf="fileData.archivist && fileData.archivist != fileData.uploaded_by">
-      <br/>
-      et archivée par <bnl-username [userData]="fileData.archivist"></bnl-username>
+    <ng-container
+      *ngIf="fileData.archivist && fileData.archivist.userid == fileData.uploaded_by.userid;
+              then submitterIsArchivist; else submitterIsntArchivist">
     </ng-container>
+    <ng-template #submitterIsArchivist>
+      Soumise & archivée le {{ fileData.upload_time | date}} <br/>
+      par
+      <bnl-username [userData]="fileData.archivist"></bnl-username>
+    </ng-template>
+    <ng-template #submitterIsntArchivist>
+      Soumise le {{ fileData.upload_time | date}} <br/>
+      par
+      <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
+      <ng-container *ngIf="fileData.archivist && fileData.archivist != fileData.uploaded_by">
+        <br/>
+        et archivée par
+        <bnl-username [userData]="fileData.archivist"></bnl-username>
+      </ng-container>
+    </ng-template>
   </p>
+  <button *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
+          (click)="deleteContent()"
+  class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></button>
 </div>

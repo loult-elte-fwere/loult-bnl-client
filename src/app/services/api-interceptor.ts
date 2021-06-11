@@ -21,7 +21,6 @@ export class ApiInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Apply the headers
     const token = this.cookieService.userCookie;
-    console.log(token);
     req = req.clone({
       setHeaders: {
         Loultcookie: `${token}`

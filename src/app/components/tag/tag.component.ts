@@ -15,4 +15,8 @@ export class TagComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getTagName(){
+    return this.tagData ? this.tagData.name : this.tagName
+  }
+
 }

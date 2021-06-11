@@ -2,6 +2,7 @@
 #loult-logo {
   height: 40px;
   margin: auto;
+  cursor: pointer;
 }
 
 #bn-title {
@@ -10,6 +11,7 @@
   font-size: 1rem;
   overflow-wrap: normal;
   padding-top: 5px;
+  cursor: pointer;
 }
 
 #submit-file {
@@ -70,6 +72,10 @@ bnl-username {
 
 #logout-button:hover {
   background-color: lightblue;
+}
+
+#record-audio {
+  cursor: wait;
 }
 
 .upload-button {

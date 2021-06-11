@@ -1,1 +1,13 @@
-<p>user-page works!</p>
+<div *ngIf="userData" id="user-profile">
+  <img [src]="userImgUrl()">
+  <div id="user-data">
+    <p id="profile-username">
+      <span [ngStyle]="{color: userData.color}">{{userData.pokename}} {{userData.adjective}}</span> |
+      <b>{{userData.role_names.join(', ')}}</b>
+    </p>
+    <p>{{userData.uploaded_files_count}} documents soumis</p>
+    <p>{{userData.archived_files_count}} documents archivés</p>
+    <p>Dernière activité : {{userData.last_activity | date }} </p>
+  </div>
+</div>
+<bnl-content-wall *ngIf="userData" [userId]="this.userData.userid"></bnl-content-wall>

@@ -25,7 +25,6 @@ export class SubmissionPropertiesEditorComponent implements OnInit {
     this.contentMetadata.archive = this.roleProvider.userData.permissions.can_archive;
     this.usersService.usersTagsListGet().subscribe((data) => {
       this.allTags = data.tags;
-      this.allTags = ['bite', 'couille', 'suce'];
     });
   }
 

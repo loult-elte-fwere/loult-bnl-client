@@ -1,11 +1,14 @@
 <div id="bnl-nav">
-  <img id="loult-logo" class="" src="assets/images/logo.svg">
-  <h1 id="bn-title">Bibliothèque Nationale Loultiste</h1>
-  <button id="submit-file" (click)="openUploadModal()" class="upload-button bnl-button">
+  <img id="loult-logo" class="" src="assets/images/logo.svg" [routerLink]="['/last']">
+  <h1 id="bn-title" [routerLink]="['/last']">Bibliothèque Nationale Loultiste</h1>
+  <button id="submit-file"  [disabled]="!roleProvider.isLogged()"
+          (click)="openUploadModal()"
+          [ngbTooltip]="roleProvider.isLogged() ? 'Soumettre un document' : 'Doume le cookie pour pourvoir uploader'"
+          class="upload-button bnl-button">
     <img src="assets/images/icons/upload-grey.svg">
     <span>Envoyer un fichier</span>
   </button>
-  <button id="record-audio" class="upload-button bnl-button">
+  <button id="record-audio" class="upload-button bnl-button" ngbTooltip="En Développement...">
     <img src="assets/images/icons/micro.svg">
     <span>Enregistrement audio</span>
   </button>

@@ -1,1 +1,59 @@
-<p>content-page works!</p>
+<div id="content-card" *ngIf="fileData">
+  <div id="edit-actions">
+    <button *ngIf="fileCanBeEdited()"
+            (click)="editContent()"
+            class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></button>
+    <button *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
+            (click)="deleteContent()"
+            class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+  </div>
+  <h2 *ngIf="fileData.title"> {{fileData.title}}</h2>
+
+  <div id="card-body">
+    <div id="media-side">
+      <img *ngIf="fileData.file_type === 'image' " [src]="miniatureLink()" [alt]="fileData.title">
+      <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
+        <source [src]="audioLink()" type="audio/ogg">
+      </audio>
+    </div>
+
+    <div id="metadata-side">
+      <div class="actions">
+        <button [disabled]="roleProvider.isLogged() && !roleProvider.userData.permissions.can_archive"
+                (click)="archiveToggle()">
+          <img [src]="archiveIcon()" [ngbTooltip]="archiveActionToolTip()">
+        </button>
+        <button (click)="copyLink()" ngbTooltip="Copier le lien">
+          <img src="assets/images/icons/copy_url.png">
+        </button>
+      </div>
+      <ul *ngIf="fileData.tags && fileData.tags.length > 0" class="tags-list">
+        <li *ngFor="let tag of fileData.tags">
+          <bnl-tag [tagData]="tag"></bnl-tag>
+        </li>
+      </ul>
+
+      <div id="submission-info">
+        <p>Soumise le {{ fileData.upload_time | date}} </p>
+        <p>Créateur </p>
+        <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
+
+        <ng-container *ngIf="fileData.archivist">
+          <p>Archiviste en chef: </p>
+          <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
+        </ng-container>
+        <ng-container *ngIf="fileData.archived_by && fileData.archived_by.length > 1">
+          <p>Assistants archivistes:</p>
+          <ul id="assistant-archivists-list">
+            <li *ngFor="let archivist of fileData.archived_by.slice(1)">
+              <bnl-username [userData]="archivist"></bnl-username>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

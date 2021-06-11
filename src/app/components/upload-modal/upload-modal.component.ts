@@ -60,6 +60,8 @@ export class UploadModalComponent implements OnInit {
       this.selectedFile = undefined;
       this.fileUrl = undefined;
       this.uploading = false;
+      this.fileMetadata.tags = [];
+      this.fileMetadata.title = '';
       this.eventsService.fileUploaded.emit();
     }, error => {
       console.log(error);

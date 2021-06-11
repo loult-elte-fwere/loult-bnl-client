@@ -1,0 +1,4 @@
+<div *ngIf="tagName" id="tag-header">
+  <p> Contenu pour l'étiquette <bnl-tag [tagName]="tagName"></bnl-tag></p>
+</div>
+<bnl-content-wall *ngIf="tagName" [tagName]="this.tagName"></bnl-content-wall>
