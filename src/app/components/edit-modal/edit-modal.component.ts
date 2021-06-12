@@ -51,9 +51,9 @@ export class EditModalComponent implements OnInit {
   userCanEditTags() {
     return ((this.fileData.uploaded_by.userid === this.roleProvider.userData.userid
       && this.roleProvider.userData.permissions.can_tag)
-    || (this.fileData.archivist.userid === this.roleProvider.userData.userid
-      && this.roleProvider.userData.permissions.can_edit_archived)
-    || (this.roleProvider.userData.permissions.can_edit_others));
+      || (this.fileData.archivist.userid === this.roleProvider.userData.userid
+        && this.roleProvider.userData.permissions.can_edit_archived)
+      || (this.roleProvider.userData.permissions.can_edit_others));
   }
 
   addTag() {
@@ -66,6 +66,9 @@ export class EditModalComponent implements OnInit {
   }
 
   saveData() {
+    if (!this.contentMetadata.title) {
+      this.contentMetadata.title = '';
+    }
     this.usersService.usersMetadataEditFileIdPatch(
       {file_id: this.fileData.file_id, body: this.contentMetadata}).subscribe(() => {
       this.activeModal.close(true);

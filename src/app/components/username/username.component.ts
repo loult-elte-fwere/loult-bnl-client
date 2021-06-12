@@ -8,6 +8,7 @@ import {UserData} from '../../api/models/user-data';
 })
 export class UsernameComponent implements OnInit {
   @Input() userData: UserData;
+  @Input() showPopOver = true;
 
   constructor() {
   }

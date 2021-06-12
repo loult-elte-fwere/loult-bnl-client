@@ -3,8 +3,8 @@
 
 <span [style]="getColor()"
       [routerLink]="['/user', userData.userid]"
-      [ngbPopover]="popContent"
-      [popoverTitle]="popTitle"
+      [ngbPopover]="showPopOver ? popContent : null"
+      [popoverTitle]="showPopOver ? popTitle : null"
       popoverClass="user-popover"
       placement="top" triggers="mouseenter:mouseleave">
   <img [src]="getImg()" [alt]="userData.pokename + ' ' + userData.adjective">

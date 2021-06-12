@@ -10,10 +10,7 @@ import {BaseContentComponent} from '../base-content-component';
 export class ContentTileComponent extends BaseContentComponent implements OnInit {
   @Input() fileData: FileData;
 
-
-  deleteContent() {
-    this.mediaService.mediaContentDeleteFileIdDelete({file_id: this.fileData.file_id}).subscribe(() => {
-      this.fileData = undefined;
-    });
+  postDeleteAction() {
+    this.fileData = undefined;
   }
 }

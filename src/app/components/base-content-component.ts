@@ -6,6 +6,9 @@ import {UsersService} from '../api/services/users.service';
 import {ClipboardService} from 'ngx-clipboard';
 import {environment} from '../../environments/environment';
 import {EventsService} from '../services/events.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ConfigService} from '../services/config.service';
+import {ConfirmationModalComponent} from './confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'bnl-base-content',
@@ -24,7 +27,9 @@ export abstract class BaseContentComponent implements OnInit {
               public mediaService: MediaService,
               public usersService: UsersService,
               public clipboard: ClipboardService,
-              public eventsService: EventsService) {
+              public eventsService: EventsService,
+              public modalService: NgbModal,
+              public configService: ConfigService) {
   }
 
   ngOnInit() {
@@ -32,6 +37,7 @@ export abstract class BaseContentComponent implements OnInit {
     this.eventsService.userLogout.subscribe(() => this.reloadHasArchived());
     this.eventsService.userLogin.subscribe(() => this.reloadHasArchived());
   }
+
   reloadHasArchived() {
     if (!this.roleProvider.isLogged()) {
       this.userHasArchivedFile = false;
@@ -40,6 +46,7 @@ export abstract class BaseContentComponent implements OnInit {
       this.userHasArchivedFile = this.fileData.archived_by.some(e => e.userid === this.roleProvider.userData.userid);
     }
   }
+
   reloadFileData() {
     this.mediaService.mediaContentDataFileIdGet({file_id: this.fileData.file_id}).subscribe(data => {
         this.fileData = data;
@@ -93,5 +100,24 @@ export abstract class BaseContentComponent implements OnInit {
     }
   }
 
-  abstract deleteContent(): void;
+  deleteContent() {
+    if (this.configService.deleteSafeMode) {
+      const modalRef = this.modalService.open(ConfirmationModalComponent);
+      modalRef.result.then(value => {
+        if (value){
+          this.mediaService.mediaContentDeleteFileIdDelete({file_id: this.fileData.file_id}).subscribe(() => {
+            this.postDeleteAction();
+          });
+        }
+      });
+    } else {
+      this.mediaService.mediaContentDeleteFileIdDelete({file_id: this.fileData.file_id}).subscribe(() => {
+        this.postDeleteAction();
+      });
+    }
+
+  }
+
+  abstract postDeleteAction(): void;
+
 }

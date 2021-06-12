@@ -17,5 +17,23 @@
     <button class="bnl-button" (click)="login()">Valider</button>
   </div>
   <button *ngIf="roleProvider.isLogged()" (click)="roleProvider.logout()" id="logout-button" class="bnl-button">Déconnexion</button>
-  <bnl-username *ngIf="roleProvider.isLogged()" [userData]="roleProvider.userData"></bnl-username>
+  <div id="user-block" *ngIf="roleProvider.isLogged()">
+    <bnl-username  [userData]="roleProvider.userData" [showPopOver]="false"></bnl-username>
+    <p id="user-roles">
+      {{ roleProvider.userData.role_names.join(", ")}}
+    </p>
+  </div>
+
+  <div *ngIf="roleProvider.isLogged()" id="user-submissions-counts">
+    <p><b>{{roleProvider.userData.uploaded_files_count}}</b> soumis</p>
+    <p><b>{{roleProvider.userData.archived_files_count}}</b> archivés</p>
+  </div>
+
+  <div *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
+       id="safemode-switch-block" ngbTooltip="Demander confirmation avant de supprimer un fichier"
+       class="form-check form-switch align-items-center">
+    <input class="form-check-input" type="checkbox" id="safemode-switch"
+           [(ngModel)]="configService.deleteSafeMode">
+    <label class="form-check-label" for="safemode-switch">Sécurité Suppression</label>
+  </div>
 </div>
