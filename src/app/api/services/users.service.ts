@@ -11,7 +11,6 @@ import { map, filter } from 'rxjs/operators';
 
 import { FileData } from '../models/file-data';
 import { FileMetaData } from '../models/file-meta-data';
-import { TagData } from '../models/tag-data';
 import { TagsList } from '../models/tags-list';
 import { UserData } from '../models/user-data';
 import { UserId } from '../models/user-id';
@@ -296,98 +295,6 @@ export class UsersService extends BaseService {
   }): Observable<void> {
 
     return this.usersArchiveFileIdDelete$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation usersTagsPost
-   */
-  static readonly UsersTagsPostPath = '/users/tags/';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `usersTagsPost()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersTagsPost$Response(params: {
-    body: TagData
-  }): Observable<StrictHttpResponse<TagData>> {
-
-    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersTagsPostPath, 'post');
-    if (params) {
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<TagData>;
-      })
-    );
-  }
-
-  /**
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `usersTagsPost$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersTagsPost(params: {
-    body: TagData
-  }): Observable<TagData> {
-
-    return this.usersTagsPost$Response(params).pipe(
-      map((r: StrictHttpResponse<TagData>) => r.body as TagData)
-    );
-  }
-
-  /**
-   * Path part for operation usersTagsDelete
-   */
-  static readonly UsersTagsDeletePath = '/users/tags/';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `usersTagsDelete()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersTagsDelete$Response(params: {
-    body: TagData
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersTagsDeletePath, 'delete');
-    if (params) {
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `usersTagsDelete$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersTagsDelete(params: {
-    body: TagData
-  }): Observable<void> {
-
-    return this.usersTagsDelete$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
