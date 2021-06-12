@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { FileData } from '../models/file-data';
+import { FileMetaData } from '../models/file-meta-data';
 import { TagData } from '../models/tag-data';
 import { TagsList } from '../models/tags-list';
-import { TitleEdit } from '../models/title-edit';
 import { UserData } from '../models/user-data';
 import { UserId } from '../models/user-id';
 
@@ -301,52 +301,6 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * Path part for operation usersTitleEditPatch
-   */
-  static readonly UsersTitleEditPatchPath = '/users/title/edit/';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `usersTitleEditPatch()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersTitleEditPatch$Response(params: {
-    body: TitleEdit
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersTitleEditPatchPath, 'patch');
-    if (params) {
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `usersTitleEditPatch$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersTitleEditPatch(params: {
-    body: TitleEdit
-  }): Observable<void> {
-
-    return this.usersTitleEditPatch$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
    * Path part for operation usersTagsPost
    */
   static readonly UsersTagsPostPath = '/users/tags/';
@@ -434,6 +388,55 @@ export class UsersService extends BaseService {
   }): Observable<void> {
 
     return this.usersTagsDelete$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation usersMetadataEditFileIdPatch
+   */
+  static readonly UsersMetadataEditFileIdPatchPath = '/users/metadata/edit/{file_id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `usersMetadataEditFileIdPatch()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  usersMetadataEditFileIdPatch$Response(params: {
+    file_id: string;
+    body: FileMetaData
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersMetadataEditFileIdPatchPath, 'patch');
+    if (params) {
+      rb.path('file_id', params.file_id, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `usersMetadataEditFileIdPatch$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  usersMetadataEditFileIdPatch(params: {
+    file_id: string;
+    body: FileMetaData
+  }): Observable<void> {
+
+    return this.usersMetadataEditFileIdPatch$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

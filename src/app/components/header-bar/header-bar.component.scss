@@ -52,7 +52,7 @@
 
 bnl-username {
   grid-column-start: 1;
-  grid-column-end: 3;
+  grid-column-end: 4;
   grid-row: 2;
 }
 
@@ -88,12 +88,14 @@ bnl-username {
   display: inline-block;
 
   img {
+
     display: inline;
     height: 40px;
     vertical-align: middle;
   }
 
   span {
+    width: 100%;
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;

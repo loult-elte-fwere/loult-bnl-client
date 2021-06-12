@@ -1,14 +1,39 @@
 <div class="modal-header">
-  <h4 class="modal-title">Soumettre une archive</h4>
+  <h4 class="modal-title">Editer les métadonnées du document</h4>
 </div>
 <div class="modal-body">
-  <form (keydown.enter)="$event.preventDefault()">
+  <form (keydown.enter)="$event.preventDefault()" *ngIf="contentMetadata">
+    <div class="input-group">
+      <span class="input-group-text" id="title">Titre</span>
+      <input type="text" class="form-control" placeholder="Titre pour cette oeuvre"
+             id="title-input" name="title"
+             [(ngModel)]="contentMetadata.title"
+             aria-label="Titre">
+    </div>
+    <div *ngIf="userCanEditTitle()" class="input-group">
+      <span class="input-group-text" id="tags-label">Tags</span>
+      <input id="tags-input" type="text" class="form-control"
+             (keyup.enter)="addTag()"
+             name="current-tag"
+             placeholder="Ajoutez des tags avec ⏎ "
+             [(ngModel)]="currentTag" [ngbTypeahead]="search"/>
+    </div>
 
+    <ul class="tags-list" *ngIf="userCanEditTags()">
+      <li *ngFor="let tag of this.contentMetadata.tags; let tagIdx=index;"
+          class="tag">
+        <bnl-tag [tagName]="tag"></bnl-tag>
+        <i (click)="deleteTag(tagIdx)" class="btn btn-secondary btn-sm">✕</i>
+      </li>
+    </ul>
   </form>
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">
+  <button type="button" class="btn btn-outline-success" (click)="saveData()">
+    Valider
+  </button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">
     Fermer
   </button>
 </div>

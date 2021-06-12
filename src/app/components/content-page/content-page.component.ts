@@ -5,6 +5,10 @@ import {UsersService} from '../../api/services/users.service';
 import {ClipboardService} from 'ngx-clipboard';
 import {ContentTileComponent} from '../content-tile/content-tile.component';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {EditModalComponent} from '../edit-modal/edit-modal.component';
+import {FileMetaData} from '../../api/models/file-meta-data';
+import {EventsService} from '../../services/events.service';
 
 @Component({
   selector: 'bnl-content-page',
@@ -17,9 +21,11 @@ export class ContentPageComponent extends ContentTileComponent {
               public mediaService: MediaService,
               public usersService: UsersService,
               public clipboard: ClipboardService,
-              public route: ActivatedRoute,
-              public router: Router) {
-    super(roleProvider, mediaService, usersService, clipboard);
+              public eventService: EventsService,
+              private modalService: NgbModal,
+              private route: ActivatedRoute,
+              private router: Router) {
+    super(roleProvider, mediaService, usersService, clipboard, eventService);
   }
 
   ngOnInit() {
@@ -56,6 +62,14 @@ export class ContentPageComponent extends ContentTileComponent {
   }
 
   editContent() {
-
+    const modalRef = this.modalService.open(EditModalComponent);
+    const tagsList = this.fileData.tags.map(tagData => tagData.name);
+    modalRef.componentInstance.contentMetadata = {title: this.fileData.title, tags: tagsList} as FileMetaData;
+    modalRef.componentInstance.fileData = this.fileData;
+    modalRef.result.then(value => {
+      if (value){
+        this.reloadFileData();
+      }
+    });
   }
 }

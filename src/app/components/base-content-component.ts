@@ -5,6 +5,7 @@ import {MediaService} from '../api/services/media.service';
 import {UsersService} from '../api/services/users.service';
 import {ClipboardService} from 'ngx-clipboard';
 import {environment} from '../../environments/environment';
+import {EventsService} from '../services/events.service';
 
 @Component({
   selector: 'bnl-base-content',
@@ -22,17 +23,23 @@ export abstract class BaseContentComponent implements OnInit {
   constructor(public roleProvider: RoleProvider,
               public mediaService: MediaService,
               public usersService: UsersService,
-              public clipboard: ClipboardService,) {
+              public clipboard: ClipboardService,
+              public eventsService: EventsService) {
   }
 
   ngOnInit() {
+    this.reloadHasArchived();
+    this.eventsService.userLogout.subscribe(() => this.reloadHasArchived());
+    this.eventsService.userLogin.subscribe(() => this.reloadHasArchived());
+  }
+  reloadHasArchived() {
     if (!this.roleProvider.isLogged()) {
       this.userHasArchivedFile = false;
       return;
+    } else {
+      this.userHasArchivedFile = this.fileData.archived_by.some(e => e.userid === this.roleProvider.userData.userid);
     }
-    this.userHasArchivedFile = this.fileData.archived_by.some(e => e.userid === this.roleProvider.userData.userid);
   }
-
   reloadFileData() {
     this.mediaService.mediaContentDataFileIdGet({file_id: this.fileData.file_id}).subscribe(data => {
         this.fileData = data;
