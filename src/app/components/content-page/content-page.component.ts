@@ -11,6 +11,7 @@ import {FileMetaData} from '../../api/models/file-meta-data';
 import {EventsService} from '../../services/events.service';
 import {BaseContentComponent} from '../base-content-component';
 import {ConfigService} from '../../services/config.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'bnl-content-page',
@@ -27,7 +28,8 @@ export class ContentPageComponent extends BaseContentComponent {
               public modalService: NgbModal,
               public configService: ConfigService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private title: Title) {
     super(roleProvider, mediaService, usersService, clipboard, eventService, modalService, configService);
   }
 
@@ -35,8 +37,13 @@ export class ContentPageComponent extends BaseContentComponent {
     const fileId: string = this.route.snapshot.paramMap.get('file_id');
     this.mediaService.mediaContentDataFileIdGet({file_id: fileId}).subscribe(data => {
       this.fileData = data;
+      this.setTitle();
       super.ngOnInit();
     });
+  }
+
+  setTitle() {
+    this.title.setTitle(`BNL | Archive n° ${this.fileData.file_id}`);
   }
 
   postDeleteAction() {

@@ -6,6 +6,7 @@ import {NgxMasonryOptions} from 'ngx-masonry';
 import {EventsService} from '../../services/events.service';
 import {UsersService} from '../../api/services/users.service';
 import {Observable} from 'rxjs';
+import {Title} from '@angular/platform-browser';
 
 const masonryOptions = {
   horizontalOrder: true,
@@ -31,7 +32,8 @@ export class ContentWallComponent implements OnInit {
 
   constructor(private mediaService: MediaService,
               private usersService: UsersService,
-              private eventsService: EventsService) {
+              private eventsService: EventsService,
+              private title: Title) {
   }
 
   ngOnInit() {
@@ -39,6 +41,9 @@ export class ContentWallComponent implements OnInit {
     this.eventsService.fileUploaded.subscribe(() => {
       this.reloadData();
     });
+    if (!this.userId && !this.tagName) {
+      this.title.setTitle('BNL | Dernières archives');
+    }
   }
 
   reloadData() {

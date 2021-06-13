@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {UsersService} from '../../api/services/users.service';
 import {UserData} from '../../api/models/user-data';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'bnl-user-page',
@@ -12,21 +13,23 @@ export class UserPageComponent implements OnInit {
   userData: UserData;
 
   constructor(private route: ActivatedRoute,
-              private userService: UsersService) {
+              private userService: UsersService,
+              private title: Title) {
   }
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('user_id');
     this.loadUserData(userId);
     this.route.params.subscribe(params => {
-      const userId = params.user_id;
-      this.loadUserData(userId);
+      const routeUserId = params.user_id;
+      this.loadUserData(routeUserId);
     });
   }
 
   loadUserData(userId: string) {
     this.userService.usersDataUserIdGet({user_id: userId}).subscribe(data => {
       this.userData = data;
+      this.title.setTitle(`BNL | Archive de ${this.userData.pokename} ${this.userData.adjective}`);
     });
   }
 
