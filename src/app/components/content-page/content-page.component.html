@@ -41,7 +41,7 @@
 
         <ng-container *ngIf="fileData.archivist">
           <p>Archiviste en chef: </p>
-          <bnl-username [userData]="fileData.uploaded_by"></bnl-username>
+          <bnl-username [userData]="fileData.archivist"></bnl-username>
         </ng-container>
         <ng-container *ngIf="fileData.archived_by && fileData.archived_by.length > 1">
           <p>Assistants archivistes:</p>
