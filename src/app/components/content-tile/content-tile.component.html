@@ -6,6 +6,9 @@
     <source [src]="audioLink()" type="audio/ogg">
   </audio>
   <h2 *ngIf="fileData.title" [routerLink]="['/archive', fileData.file_id]"> {{fileData.title}}</h2>
+  <button *ngIf="fileData.file_type === 'audio'"
+          [routerLink]="['/archive', fileData.file_id]"
+    class="btn btn-outline-primary open-page-btn"><i class="bi-box-arrow-in-up"></i></button>
   <div class="actions">
     <button [disabled]="roleProvider.isLogged() && !roleProvider.userData.permissions.can_archive"
             (click)="archiveToggle()">
@@ -43,5 +46,5 @@
   </p>
   <button *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
           (click)="deleteContent()"
-  class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></button>
+          class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></button>
 </div>

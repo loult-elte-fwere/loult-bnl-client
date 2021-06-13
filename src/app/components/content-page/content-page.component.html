@@ -12,7 +12,8 @@
   <div id="card-body">
     <div id="media-side">
       <img *ngIf="fileData.file_type === 'image' " [src]="imgLink()" [alt]="fileData.title">
-      <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
+      <audio *ngIf="fileData.file_type === 'audio'" controls preload="none"
+             class="align-middle">
         <source [src]="audioLink()" type="audio/ogg">
       </audio>
     </div>
