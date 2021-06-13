@@ -1,14 +1,15 @@
 <div class="content-tile" *ngIf="fileData">
-  <img *ngIf="fileData.file_type === 'image' "
-       [routerLink]="['/archive', fileData.file_id]"
-       [src]="miniatureLink()" [alt]="fileData.title">
+  <a *ngIf="fileData.file_type === 'image' " [routerLink]="['/archive', fileData.file_id]">
+    <img [src]="miniatureLink()" [alt]="fileData.title">
+  </a>
+
   <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
     <source [src]="audioLink()" type="audio/ogg">
   </audio>
   <h2 *ngIf="fileData.title" [routerLink]="['/archive', fileData.file_id]"> {{fileData.title}}</h2>
-  <button *ngIf="fileData.file_type === 'audio'"
-          [routerLink]="['/archive', fileData.file_id]"
-    class="btn btn-outline-primary open-page-btn"><i class="bi-box-arrow-in-up"></i></button>
+  <a *ngIf="fileData.file_type === 'audio'"
+     [routerLink]="['/archive', fileData.file_id]"
+     class="btn btn-outline-primary open-page-btn"><i class="bi-box-arrow-in-up"></i></a>
   <div class="actions">
     <button [disabled]="roleProvider.isLogged() && !roleProvider.userData.permissions.can_archive"
             (click)="archiveToggle()">
