@@ -11,6 +11,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { FileData } from '../models/file-data';
 import { FileMetaData } from '../models/file-meta-data';
+import { MediaFileQuery } from '../models/media-file-query';
 import { TagsList } from '../models/tags-list';
 import { UserData } from '../models/user-data';
 import { UserId } from '../models/user-id';
@@ -162,23 +163,29 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * Path part for operation usersLibraryListUserIdGet
+   * Path part for operation usersLibraryListUserIdPost
    */
-  static readonly UsersLibraryListUserIdGetPath = '/users/library/list/{user_id}';
+  static readonly UsersLibraryListUserIdPostPath = '/users/library/list/{user_id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `usersLibraryListUserIdGet()` instead.
+   * To access only the response body, use `usersLibraryListUserIdPost()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersLibraryListUserIdGet$Response(params: {
+  usersLibraryListUserIdPost$Response(params: {
     user_id: string;
+    page?: number;
+    page_size?: number;
+    body: MediaFileQuery
   }): Observable<StrictHttpResponse<Array<FileData>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersLibraryListUserIdGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersLibraryListUserIdPostPath, 'post');
     if (params) {
       rb.path('user_id', params.user_id, {});
+      rb.query('page', params.page, {});
+      rb.query('page_size', params.page_size, {});
+      rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
@@ -194,15 +201,18 @@ export class UsersService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `usersLibraryListUserIdGet$Response()` instead.
+   * To access the full response (for headers, for example), `usersLibraryListUserIdPost$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersLibraryListUserIdGet(params: {
+  usersLibraryListUserIdPost(params: {
     user_id: string;
+    page?: number;
+    page_size?: number;
+    body: MediaFileQuery
   }): Observable<Array<FileData>> {
 
-    return this.usersLibraryListUserIdGet$Response(params).pipe(
+    return this.usersLibraryListUserIdPost$Response(params).pipe(
       map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }

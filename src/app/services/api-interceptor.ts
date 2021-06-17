@@ -4,12 +4,20 @@ import {Observable, EMPTY} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {RoleProvider} from './role-provider';
 import {CookieStorageService} from './cookie-storage.service';
+import {PaginationService} from './pagination.service';
 
+export interface Paginationdata {
+  total: number;
+  total_pages: number;
+  first_page: number;
+  last_page: number;
+}
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(
     private cookieService: CookieStorageService,
+    private paginationService: PaginationService
   ) {
   }
 
@@ -26,6 +34,11 @@ export class ApiInterceptor implements HttpInterceptor {
         Loultcookie: `${token}`
       },
     });
+
+    if (req.headers.has('X-Pagination')) {
+      const paginationData = JSON.parse(req.headers.get('X-Pagination')) as Paginationdata;
+      this.paginationService.totalPageCount = paginationData.total_pages;
+    }
 
 
     return next.handle(req).pipe(

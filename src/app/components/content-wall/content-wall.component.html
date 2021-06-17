@@ -1,5 +1,14 @@
-<ngx-masonry [options]="masonryOptions" [ordered]="true">
-  <div ngxMasonryItem *ngFor="let fileData of filesList">
+<ngx-masonry [options]="masonryOptions" [ordered]="true" [updateLayout]="true">
+  <div ngxMasonryItem *ngFor="let fileData of filesList; let first = first;" [prepend]="first">
     <bnl-content-tile class="masonry-item" [fileData]="fileData"></bnl-content-tile>
   </div>
 </ngx-masonry>
+
+<div id="wall-footer" class="d-flex justify-content-center">
+  <div *ngIf="loadingData" class="spinner-border" role="status">
+  </div>
+  <button *ngIf="!loadingData" (click)="loadData()" class="btn btn-outline-primary">
+    + DE KK
+  </button>
+</div>
+

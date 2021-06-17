@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {ContentWallComponent} from './components/content-wall/content-wall.component';
 import {UserPageComponent} from './components/user-page/user-page.component';
 import {TagPageComponent} from './components/tag-page/tag-page.component';
@@ -15,7 +15,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, {
+    relativeLinkResolution: 'legacy',
+    onSameUrlNavigation: 'reload'
+  })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

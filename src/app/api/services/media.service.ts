@@ -11,8 +11,8 @@ import { map, filter } from 'rxjs/operators';
 
 import { FileData } from '../models/file-data';
 import { FileUpload } from '../models/file-upload';
+import { MediaFileQuery } from '../models/media-file-query';
 import { MultipartFile } from '../models/multipart-file';
-import { UploadResponse } from '../models/upload-response';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,7 @@ export class MediaService extends BaseService {
    */
   mediaUploadJsonPost$Response(params: {
     body: FileUpload
-  }): Observable<StrictHttpResponse<UploadResponse>> {
+  }): Observable<StrictHttpResponse<FileData>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaUploadJsonPostPath, 'post');
     if (params) {
@@ -51,7 +51,7 @@ export class MediaService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<UploadResponse>;
+        return r as StrictHttpResponse<FileData>;
       })
     );
   }
@@ -64,10 +64,10 @@ export class MediaService extends BaseService {
    */
   mediaUploadJsonPost(params: {
     body: FileUpload
-  }): Observable<UploadResponse> {
+  }): Observable<FileData> {
 
     return this.mediaUploadJsonPost$Response(params).pipe(
-      map((r: StrictHttpResponse<UploadResponse>) => r.body as UploadResponse)
+      map((r: StrictHttpResponse<FileData>) => r.body as FileData)
     );
   }
 
@@ -84,7 +84,7 @@ export class MediaService extends BaseService {
    */
   mediaUploadMultipartPost$Response(params: {
     body: MultipartFile
-  }): Observable<StrictHttpResponse<UploadResponse>> {
+  }): Observable<StrictHttpResponse<FileData>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaUploadMultipartPostPath, 'post');
     if (params) {
@@ -97,7 +97,7 @@ export class MediaService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<UploadResponse>;
+        return r as StrictHttpResponse<FileData>;
       })
     );
   }
@@ -110,10 +110,10 @@ export class MediaService extends BaseService {
    */
   mediaUploadMultipartPost(params: {
     body: MultipartFile
-  }): Observable<UploadResponse> {
+  }): Observable<FileData> {
 
     return this.mediaUploadMultipartPost$Response(params).pipe(
-      map((r: StrictHttpResponse<UploadResponse>) => r.body as UploadResponse)
+      map((r: StrictHttpResponse<FileData>) => r.body as FileData)
     );
   }
 
@@ -348,21 +348,27 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * Path part for operation mediaContentListLastUploadedGet
+   * Path part for operation mediaContentListLastUploadedPost
    */
-  static readonly MediaContentListLastUploadedGetPath = '/media/content/list/last_uploaded';
+  static readonly MediaContentListLastUploadedPostPath = '/media/content/list/last_uploaded';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `mediaContentListLastUploadedGet()` instead.
+   * To access only the response body, use `mediaContentListLastUploadedPost()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  mediaContentListLastUploadedGet$Response(params?: {
+  mediaContentListLastUploadedPost$Response(params: {
+    page?: number;
+    page_size?: number;
+    body: MediaFileQuery
   }): Observable<StrictHttpResponse<Array<FileData>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListLastUploadedGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListLastUploadedPostPath, 'post');
     if (params) {
+      rb.query('page', params.page, {});
+      rb.query('page_size', params.page_size, {});
+      rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
@@ -378,36 +384,45 @@ export class MediaService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `mediaContentListLastUploadedGet$Response()` instead.
+   * To access the full response (for headers, for example), `mediaContentListLastUploadedPost$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  mediaContentListLastUploadedGet(params?: {
+  mediaContentListLastUploadedPost(params: {
+    page?: number;
+    page_size?: number;
+    body: MediaFileQuery
   }): Observable<Array<FileData>> {
 
-    return this.mediaContentListLastUploadedGet$Response(params).pipe(
+    return this.mediaContentListLastUploadedPost$Response(params).pipe(
       map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }
 
   /**
-   * Path part for operation mediaContentListTagTagNameGet
+   * Path part for operation mediaContentListTagTagNamePost
    */
-  static readonly MediaContentListTagTagNameGetPath = '/media/content/list/tag/{tag_name}';
+  static readonly MediaContentListTagTagNamePostPath = '/media/content/list/tag/{tag_name}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `mediaContentListTagTagNameGet()` instead.
+   * To access only the response body, use `mediaContentListTagTagNamePost()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  mediaContentListTagTagNameGet$Response(params: {
+  mediaContentListTagTagNamePost$Response(params: {
     tag_name: string;
+    page?: number;
+    page_size?: number;
+    body: MediaFileQuery
   }): Observable<StrictHttpResponse<Array<FileData>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListTagTagNameGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListTagTagNamePostPath, 'post');
     if (params) {
       rb.path('tag_name', params.tag_name, {});
+      rb.query('page', params.page, {});
+      rb.query('page_size', params.page_size, {});
+      rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
@@ -423,15 +438,18 @@ export class MediaService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `mediaContentListTagTagNameGet$Response()` instead.
+   * To access the full response (for headers, for example), `mediaContentListTagTagNamePost$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  mediaContentListTagTagNameGet(params: {
+  mediaContentListTagTagNamePost(params: {
     tag_name: string;
+    page?: number;
+    page_size?: number;
+    body: MediaFileQuery
   }): Observable<Array<FileData>> {
 
-    return this.mediaContentListTagTagNameGet$Response(params).pipe(
+    return this.mediaContentListTagTagNamePost$Response(params).pipe(
       map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }

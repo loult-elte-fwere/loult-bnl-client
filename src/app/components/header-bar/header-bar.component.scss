@@ -32,10 +32,7 @@
 
   input {
     border-radius: 50px 0 0 50px;
-    border: 1px solid #0985ff;
     height: 50px;
-    color: #0985ff;
-    background-color: white;
     width: 60%;
     padding-left: 10px;
   }
@@ -43,10 +40,7 @@
   button {
     border-radius: 0 50px 50px 0;
     width: 40%;
-    border: 1px solid #0985ff;
     height: 50px;
-    color: #0985ff;
-    background-color: white;
   }
 }
 
@@ -105,14 +99,7 @@
 
 #logout-button {
   border-radius: 30px;
-  border: 1px solid #0985ff;
   height: 50px;
-  color: #0985ff;
-  background-color: white;
-}
-
-#logout-button:hover {
-  background-color: lightblue;
 }
 
 #record-audio {

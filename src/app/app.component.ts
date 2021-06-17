@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {EventsService} from './services/events.service';
 
 @Component({
   selector: 'bnl-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'loult-bnl-client';
+
+  constructor() {
+  }
 }

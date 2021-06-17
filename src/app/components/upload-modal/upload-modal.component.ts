@@ -55,14 +55,14 @@ export class UploadModalComponent implements OnInit {
   sendFile() {
     this.uploading = true;
     this.mediaService.mediaUploadJsonPost({body: {payload: this.fileBase64, metadata: this.fileMetadata}}
-    ).subscribe(() => {
+    ).subscribe((data) => {
       this.fileUploaded = true;
       this.selectedFile = undefined;
       this.fileUrl = undefined;
       this.uploading = false;
       this.fileMetadata.tags = [];
       this.fileMetadata.title = '';
-      this.eventsService.fileUploaded.emit();
+      this.eventsService.fileUploaded.emit(data);
     }, error => {
       console.log(error);
       this.uploading = false;

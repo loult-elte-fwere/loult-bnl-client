@@ -1,12 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FileData} from '../../api/models';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {FileData, MediaFileQuery} from '../../api/models';
 import {MediaService} from '../../api/services/media.service';
 
-import {NgxMasonryOptions} from 'ngx-masonry';
+import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 import {EventsService} from '../../services/events.service';
 import {UsersService} from '../../api/services/users.service';
 import {Observable} from 'rxjs';
 import {Title} from '@angular/platform-browser';
+import {PaginationService} from '../../services/pagination.service';
+import {environment} from '../../../environments/environment';
+import {NavigationEnd, Router} from '@angular/router';
 
 const masonryOptions = {
   horizontalOrder: true,
@@ -29,34 +32,80 @@ export class ContentWallComponent implements OnInit {
 
   filesList: FileData[];
   masonryOptions = masonryOptions;
+  mediaFileQuery: MediaFileQuery;
+  loadingData = false;
+  @ViewChild(NgxMasonryComponent) masonry: NgxMasonryComponent;
 
   constructor(private mediaService: MediaService,
               private usersService: UsersService,
               private eventsService: EventsService,
+              private paginationService: PaginationService,
+              private router: Router,
               private title: Title) {
   }
 
   ngOnInit() {
-    this.reloadData();
-    this.eventsService.fileUploaded.subscribe(() => {
-      this.reloadData();
+    this.reset();
+
+    this.loadData();
+    this.eventsService.fileUploaded.subscribe((data) => {
+      this.filesList.unshift(data);
+      this.masonry.reloadItems();
+      this.masonry.layout();
+    });
+    this.eventsService.reachedBottomOfPage.subscribe(() => {
+      this.loadData();
     });
     if (!this.userId && !this.tagName) {
       this.title.setTitle('BNL | Dernières archives');
     }
+    // this.router.onSameUrlNavigation = 'reload';
+    this.router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd){
+        this.reset();
+        this.loadData();
+      }
+    });
   }
 
-  reloadData() {
+  reset() {
+    this.paginationService.reset();
+    this.mediaFileQuery = {
+      max_creation_time: new Date().toISOString()
+    } as MediaFileQuery;
+    this.filesList = [];
+
+  }
+
+  loadData() {
     let promise: Observable<FileData[]>;
+    const pageSize = environment.elements_per_page;
     if (this.userId) {
-      promise = this.usersService.usersLibraryListUserIdGet({user_id: this.userId});
+      promise = this.usersService.usersLibraryListUserIdPost({
+        user_id: this.userId,
+        page: this.paginationService.currentPage,
+        page_size: pageSize,
+        body: this.mediaFileQuery
+      });
     } else if (this.tagName) {
-      promise = this.mediaService.mediaContentListTagTagNameGet({tag_name: this.tagName});
+      promise = this.mediaService.mediaContentListTagTagNamePost({
+        tag_name: this.tagName,
+        page: this.paginationService.currentPage,
+        page_size: pageSize,
+        body: this.mediaFileQuery
+      });
     } else {
-      promise = this.mediaService.mediaContentListLastUploadedGet();
+      promise = this.mediaService.mediaContentListLastUploadedPost({
+        page: this.paginationService.currentPage,
+        page_size: pageSize,
+        body: this.mediaFileQuery
+      });
     }
+    this.loadingData = true;
     promise.subscribe(data => {
-      this.filesList = data;
+      this.loadingData = false;
+      this.filesList = this.filesList.concat(data);
+      this.paginationService.currentPage++;
     });
   }
 

@@ -6,6 +6,7 @@ export interface FileData {
   archived_by?: Array<UserData>;
   archivist?: UserData;
   file_id: string;
+  file_path?: string;
   file_type: string;
   tags?: Array<TagData>;
   title?: string;

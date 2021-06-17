@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api_root: 'http://localhost:5000'
+  api_root: 'http://localhost:5000',
+  elements_per_page: 10
 };
 
 /*
