@@ -9,6 +9,8 @@ import {EventsService} from '../services/events.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ConfigService} from '../services/config.service';
 import {ConfirmationModalComponent} from './confirmation-modal/confirmation-modal.component';
+import {EditModalComponent} from './edit-modal/edit-modal.component';
+import {FileMetaData} from '../api/models/file-meta-data';
 
 @Component({
   selector: 'bnl-base-content',
@@ -116,6 +118,37 @@ export abstract class BaseContentComponent implements OnInit {
       });
     }
 
+  }
+
+  fileCanBeEdited() {
+    if (!this.roleProvider.isLogged()) {
+      return false;
+    }
+    const currentUserId = this.roleProvider.userData.userid;
+    if (this.fileData.uploaded_by.userid === currentUserId) {
+      return true;
+    }
+    if ((this.fileData.archivist && this.fileData.archivist.userid === currentUserId)
+      && this.roleProvider.userData.permissions.can_edit_archived) {
+      return true;
+    }
+    if (this.roleProvider.userData.permissions.can_edit_others) {
+      return true;
+    }
+
+    return false;
+  }
+
+  editContent() {
+    const modalRef = this.modalService.open(EditModalComponent);
+    const tagsList = this.fileData.tags.map(tagData => tagData.name);
+    modalRef.componentInstance.contentMetadata = {title: this.fileData.title, tags: tagsList} as FileMetaData;
+    modalRef.componentInstance.fileData = this.fileData;
+    modalRef.result.then(value => {
+      if (value){
+        this.reloadFileData();
+      }
+    });
   }
 
   abstract postDeleteAction(): void;

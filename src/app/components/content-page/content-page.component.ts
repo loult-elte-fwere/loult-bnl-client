@@ -50,34 +50,7 @@ export class ContentPageComponent extends BaseContentComponent {
     this.router.navigate(['/last']);
   }
 
-  fileCanBeEdited() {
-    if (!this.roleProvider.isLogged()) {
-      return false;
-    }
-    const currentUserId = this.roleProvider.userData.userid;
-    if (this.fileData.uploaded_by.userid === currentUserId) {
-      return true;
-    }
-    if ((this.fileData.archivist && this.fileData.archivist.userid === currentUserId)
-      && this.roleProvider.userData.permissions.can_edit_archived) {
-      return true;
-    }
-    if (this.roleProvider.userData.permissions.can_edit_others) {
-      return true;
-    }
 
-    return false;
-  }
 
-  editContent() {
-    const modalRef = this.modalService.open(EditModalComponent);
-    const tagsList = this.fileData.tags.map(tagData => tagData.name);
-    modalRef.componentInstance.contentMetadata = {title: this.fileData.title, tags: tagsList} as FileMetaData;
-    modalRef.componentInstance.fileData = this.fileData;
-    modalRef.result.then(value => {
-      if (value){
-        this.reloadFileData();
-      }
-    });
-  }
+
 }

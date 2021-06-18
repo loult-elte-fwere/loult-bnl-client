@@ -8,9 +8,9 @@ import {FileData} from '../api/models/file-data';
 export class EventsService {
   public userLogin: EventEmitter<UserData> = new EventEmitter<UserData>();
   public userLogout: EventEmitter<void> = new EventEmitter();
-  public fileUploaded: EventEmitter<FileData> = new  EventEmitter<FileData>();
-  public reachedBottomOfPage: EventEmitter<void> = new  EventEmitter<void>();
-  public reloadHomeEvent: EventEmitter<void> = new  EventEmitter<void>();
+  public fileUploaded: EventEmitter<FileData> = new EventEmitter<FileData>();
+  public refreshWall: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() { }
+  constructor() {
+  }
 }

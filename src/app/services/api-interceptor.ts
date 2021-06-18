@@ -21,11 +21,6 @@ export class ApiInterceptor implements HttpInterceptor {
   ) {
   }
 
-  private static download(url: string): Observable<any> {
-    window.open(url);
-    return EMPTY;
-  }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Apply the headers
     const token = this.cookieService.userCookie;

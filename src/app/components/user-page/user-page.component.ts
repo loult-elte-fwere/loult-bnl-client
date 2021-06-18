@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {UsersService} from '../../api/services/users.service';
 import {UserData} from '../../api/models/user-data';
 import {Title} from '@angular/platform-browser';
+import {EventsService} from '../../services/events.service';
 
 @Component({
   selector: 'bnl-user-page',
@@ -14,6 +15,7 @@ export class UserPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private userService: UsersService,
+              private eventsService: EventsService,
               private title: Title) {
   }
 

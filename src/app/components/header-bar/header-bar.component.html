@@ -1,6 +1,6 @@
 <div id="bnl-nav">
-  <img id="loult-logo" class="" src="assets/images/logo.svg" [routerLink]="['/last']">
-  <h1 id="bn-title" [routerLink]="['/last']">Bibliothèque Nationale Loultiste</h1>
+  <img id="loult-logo" class="" src="assets/images/logo.svg" (click)="logoClick()">
+  <h1 id="bn-title" (click)="logoClick()" >Bibliothèque Nationale Loultiste</h1>
   <button id="submit-file"  [disabled]="!roleProvider.isLogged()"
           (click)="openUploadModal()"
           [ngbTooltip]="roleProvider.isLogged() ? 'Soumettre un document' : 'Doume le cookie pour pourvoir uploader'"

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FileData, MediaFileQuery} from '../../api/models';
 import {MediaService} from '../../api/services/media.service';
 
@@ -25,7 +25,7 @@ const masonryOptions = {
   templateUrl: './content-wall.component.html',
   styleUrls: ['./content-wall.component.scss']
 })
-export class ContentWallComponent implements OnInit {
+export class ContentWallComponent implements OnInit, OnChanges {
   // used when displaying a user's page
   @Input() userId: string;
   @Input() tagName: string;
@@ -53,22 +53,27 @@ export class ContentWallComponent implements OnInit {
       this.masonry.reloadItems();
       this.masonry.layout();
     });
-    this.eventsService.reachedBottomOfPage.subscribe(() => {
-      this.loadData();
-    });
     if (!this.userId && !this.tagName) {
       this.title.setTitle('BNL | Dernières archives');
     }
-    // this.router.onSameUrlNavigation = 'reload';
-    this.router.events.subscribe((e) => {
-      if (e instanceof NavigationEnd){
-        this.reset();
-        this.loadData();
-      }
+    this.eventsService.refreshWall.subscribe(() => {
+      this.reset();
+      this.loadData();
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (!this.userId && !changes.tagName.previousValue) {
+      return;
+    } else if (!this.tagName && !changes.userId.previousValue) {
+      return;
+    }
+    this.reset();
+    this.loadData();
+  }
+
   reset() {
+    console.log('resetted!');
     this.paginationService.reset();
     this.mediaFileQuery = {
       max_creation_time: new Date().toISOString()

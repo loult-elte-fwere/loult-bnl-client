@@ -45,7 +45,12 @@
       </ng-container>
     </ng-template>
   </p>
-  <button *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
-          (click)="deleteContent()"
-          class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></button>
+  <div class="edit-actions">
+    <button *ngIf="fileCanBeEdited()"
+            (click)="editContent()"
+            class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></button>
+    <button *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
+            (click)="deleteContent()"
+            class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+  </div>
 </div>

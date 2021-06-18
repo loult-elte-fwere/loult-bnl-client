@@ -64,9 +64,11 @@
   border-radius: 0px;
 }
 
-.delete-button {
+.edit-actions {
   position: absolute;
   right: 0px;
   bottom: 15px;
-  border-radius: unset;
+  button {
+    border-radius: 0;
+  }
 }
