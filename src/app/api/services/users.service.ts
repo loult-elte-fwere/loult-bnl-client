@@ -117,6 +117,49 @@ export class UsersService extends BaseService {
   }
 
   /**
+   * Path part for operation usersDataAllGet
+   */
+  static readonly UsersDataAllGetPath = '/users/data/all/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `usersDataAllGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  usersDataAllGet$Response(params?: {
+  }): Observable<StrictHttpResponse<Array<UserData>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersDataAllGetPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<UserData>>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `usersDataAllGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  usersDataAllGet(params?: {
+  }): Observable<Array<UserData>> {
+
+    return this.usersDataAllGet$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<UserData>>) => r.body as Array<UserData>)
+    );
+  }
+
+  /**
    * Path part for operation usersDeleteDelete
    */
   static readonly UsersDeleteDeletePath = '/users/delete/';

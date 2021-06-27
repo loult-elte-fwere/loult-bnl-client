@@ -1,0 +1,61 @@
+#searchbar-block {
+  width: 500px;
+  margin: 30px auto 0px;
+
+  ::ng-deep .typeahead-popup {
+    width: 500px;
+
+    .dropdown-item.active {
+      background-color: #505050;
+    }
+
+    .tag-list-prefix {
+      font-family: Ubuntu Mono, Monospaced, monospace;
+      background-color: black;
+      border-radius: 4px;
+      color: white;
+      padding: 1px;
+      text-align: center;
+      margin-right: 4px;
+    }
+  }
+}
+
+#searchbar {
+  border-radius: 50px;
+  padding: 12px 20px;
+  border: darkslategrey solid 1px;
+}
+
+#searchbar:focus {
+  box-shadow: 0 0 0 0.25rem rgba(30, 30, 30, 0.25);
+}
+
+#search-prefix {
+  display: none;
+}
+
+.prefix-activated #search-prefix {
+  display: flex;
+  width: 45px;
+  position: absolute;
+  z-index: 50;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 8px;
+
+  span {
+    font-family: Ubuntu Mono, Monospaced, monospace;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    padding: 1px;
+    text-align: center;
+  }
+}
+
+.prefix-activated #searchbar {
+  padding-left: 50px;
+}
+

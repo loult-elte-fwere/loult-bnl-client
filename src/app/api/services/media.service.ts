@@ -400,6 +400,58 @@ export class MediaService extends BaseService {
   }
 
   /**
+   * Path part for operation mediaContentSearchGet
+   */
+  static readonly MediaContentSearchGetPath = '/media/content/search';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `mediaContentSearchGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentSearchGet$Response(params: {
+    title: string;
+    page?: number;
+    page_size?: number;
+  }): Observable<StrictHttpResponse<Array<FileData>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentSearchGetPath, 'get');
+    if (params) {
+      rb.query('title', params.title, {});
+      rb.query('page', params.page, {});
+      rb.query('page_size', params.page_size, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<FileData>>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `mediaContentSearchGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentSearchGet(params: {
+    title: string;
+    page?: number;
+    page_size?: number;
+  }): Observable<Array<FileData>> {
+
+    return this.mediaContentSearchGet$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
+    );
+  }
+
+  /**
    * Path part for operation mediaContentListTagTagNamePost
    */
   static readonly MediaContentListTagTagNamePostPath = '/media/content/list/tag/{tag_name}';

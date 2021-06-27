@@ -1,0 +1,30 @@
+<div id="searchbar-block" class="input-group"
+     [ngClass]="{'prefix-activated' : this.queryType !== 'title'}">
+
+  <ng-template #userTemplate let-r="result" let-t="term">
+    <img [src]="'assets/images/pokemon/small/' + r.img_id + '.gif'" >
+    <ngb-highlight [result]="r.pokename + ' ' + r.adjective" [term]="t"></ngb-highlight>
+  </ng-template>
+
+  <ng-template #tagTemplate let-r="result" let-t="term">
+    <span class="tag-list-prefix">3615</span>
+    <ngb-highlight [result]="r" [term]="t"></ngb-highlight>
+  </ng-template>
+
+  <div id="search-prefix">
+    <span>{{ this.queryType === 'tag' ? '3615' : '@'}}</span>
+  </div>
+  <input #searchBar id="searchbar"
+         type="text" class="form-control"
+         [placeholder]="placeholder()"
+         (keyup)="detectPrefix()"
+         (focus)="loadLists()"
+         (keydown.backspace)="clearPrefix()"
+         [(ngModel)]="searchQuery"
+         [ngbTypeahead]="searchFunction()"
+         [resultTemplate]="queryType === 'user' ? userTemplate : tagTemplate"
+         [editable]="queryType === 'title'"
+         (selectItem)="selectedItem($event)"
+         popupClass="typeahead-popup"
+  />
+</div>
