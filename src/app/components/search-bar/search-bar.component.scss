@@ -1,10 +1,14 @@
 #searchbar-block {
   width: 500px;
-  margin: 30px auto 0px;
+  margin: 20px auto 0px;
 
   ::ng-deep .typeahead-popup {
     width: 500px;
+    overflow: hidden;
 
+    i {
+      padding-right: 5px;
+    }
     .dropdown-item.active {
       background-color: #505050;
     }

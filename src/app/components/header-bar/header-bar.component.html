@@ -1,44 +1,104 @@
+<ng-template #filteringPopover>
+  <form id="filtering-config-body" (change)="signalFilteringChange()">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox"   id="query-archived" name="query-archived"
+             [(ngModel)]="configService.fileQueryConfig.query_archived">
+      <label class="form-check-label" for="query-archived">
+        archivés
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="query-unarchived" name="query-unarchived"
+             [(ngModel)]="configService.fileQueryConfig.query_not_archived">
+      <label class="form-check-label" for="query-archived">
+        non-archivés
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="query-images" name="query-images"
+             [(ngModel)]="configService.fileQueryConfig.query_images">
+      <label class="form-check-label" for="query-images">
+        images
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="query-audio" name="query-audio"
+             [(ngModel)]="configService.fileQueryConfig.query_audio">
+      <label class="form-check-label" for="query-audio">
+        audio
+      </label>
+    </div>
+    <label for="sorting-select">Tri des documents</label>
+    <select class="form-select" id="sorting-select" name="sorting-select"
+            [(ngModel)]="configService.fileQueryConfig.sort_type">
+      <option value="descending">Date (Décr.)</option>
+      <option value="ascending">Date (Croiss.)</option>
+      <option value="random">Aléatoire</option>
+    </select>
+  </form>
+</ng-template>
+
+<ng-template #currentUserPopover>
+  <div id="current-user-popover">
+    <h3 id="user-roles">
+      {{ roleProvider.userData.role_names.join(", ")}}
+    </h3>
+    <p><b>{{roleProvider.userData.uploaded_files_count}}</b> soumis</p>
+    <p><b>{{roleProvider.userData.archived_files_count}}</b> archivés</p>
+    <div *ngIf="roleProvider.userData.permissions.can_delete_files"
+         id="safemode-switch-block" ngbTooltip="Demander confirmation avant de supprimer un document"
+         class="form-check form-switch align-items-center">
+      <input class="form-check-input" type="checkbox" id="safemode-switch"
+             [(ngModel)]="configService.deleteSafeMode">
+      <label class="form-check-label" for="safemode-switch">Sécurité Suppression</label>
+    </div>
+    <button (click)="roleProvider.logout()" id="logout-button"
+            class="btn btn-outline-primary btn-sm">
+      Déconnexion
+    </button>
+  </div>
+</ng-template>
+
 <div id="bnl-nav">
-  <img id="loult-logo" class="" src="assets/images/logo.svg" (click)="logoClick()">
-  <h1 id="bn-title" (click)="logoClick()" >Bibliothèque Nationale Loultiste</h1>
-  <button id="submit-file"  [disabled]="!roleProvider.isLogged()"
-          (click)="openUploadModal()"
-          [ngbTooltip]="roleProvider.isLogged() ? 'Soumettre un document' : 'Doume le cookie pour pourvoir uploader'"
-          class="upload-button bnl-button">
-    <img src="assets/images/icons/upload-grey.svg">
-    <span>Envoyer un fichier</span>
-  </button>
-  <button id="record-audio" class="upload-button bnl-button" ngbTooltip="En Développement...">
-    <img src="assets/images/icons/micro.svg">
-    <span>Enregistrement audio</span>
-  </button>
+  <img id="loult-logo" class="" src="assets/images/icons/logo-bnl.svg" (click)="logoClick()">
+  <h1 id="bn-title" (click)="logoClick()">Bibliothèque Nationale Loultiste</h1>
+  <a class="btn btn-outline-primary" [routerLink]="['/tags', 'all']" id="tags-btn">Étiquettes</a>
+  <a class="btn btn-outline-primary" [routerLink]="['/users', 'all']" id="users-btn">Utilisateurs</a>
+  <div id="filtering-help-group">
+    <button class="btn btn-outline-primary btn-sm" id="filtering-btn"
+            [ngbPopover]="filteringPopover" autoClose="outside">Filtrage
+    </button>
+    <button class="btn btn-outline-primary btn-sm" id="help-btn" (click)="openHelpModal()">Aide</button>
+  </div>
+
+  <div id="submission-buttons">
+    <button id="submit-file" [disabled]="!roleProvider.isLogged()"
+            (click)="openUploadModal()"
+            [ngbTooltip]="roleProvider.isLogged() ? 'Soumettre une archive' : 'Doume le cookie pour pourvoir uploader'"
+            class="upload-button bnl-button">
+      <img src="assets/images/icons/upload-grey.svg">
+      <span>Envoyer une archive</span>
+    </button>
+    <button id="record-audio" class="upload-button bnl-button" ngbTooltip="En Développement...">
+      <img src="assets/images/icons/micro.svg">
+      <span>Enregistrement audio</span>
+    </button>
+  </div>
+
   <div *ngIf="!roleProvider.isLogged()" id="login-block">
     <input [(ngModel)]="cookie" class="form-control"
            type="password"
            (keyup.enter)="login()"
-           placeholder="Donne mou le cookie">
+           placeholder="Cookie">
     <button class="btn btn-outline-primary" (click)="login()">Valider</button>
   </div>
-  <button *ngIf="roleProvider.isLogged()" (click)="roleProvider.logout()"
-          id="logout-button" class="btn btn-outline-primary">Déconnexion</button>
 
-  <div id="user-block" *ngIf="roleProvider.isLogged()">
-    <bnl-username  [userData]="roleProvider.userData" [showPopOver]="false"></bnl-username>
-    <p id="user-roles">
-      {{ roleProvider.userData.role_names.join(", ")}}
-    </p>
-  </div>
+  <bnl-username *ngIf="roleProvider.isLogged()" id="current-username"
+                [userData]="roleProvider.userData"
+                [ngbPopover]="currentUserPopover"
+                autoClose="outside"
+                triggers="mouseenter"
+                [showPopOver]="false">
+  </bnl-username>
 
-  <div *ngIf="roleProvider.isLogged()" id="user-submissions-counts">
-    <p><b>{{roleProvider.userData.uploaded_files_count}}</b> soumis</p>
-    <p><b>{{roleProvider.userData.archived_files_count}}</b> archivés</p>
-  </div>
-
-  <div *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
-       id="safemode-switch-block" ngbTooltip="Demander confirmation avant de supprimer un fichier"
-       class="form-check form-switch align-items-center">
-    <input class="form-check-input" type="checkbox" id="safemode-switch"
-           [(ngModel)]="configService.deleteSafeMode">
-    <label class="form-check-label" for="safemode-switch">Sécurité Suppression</label>
-  </div>
 </div>

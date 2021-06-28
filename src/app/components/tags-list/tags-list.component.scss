@@ -1,0 +1,13 @@
+#all-tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+bnl-tag {
+  display: block;
+  margin: 3px;
+}
+bnl-tag {
+  font-size: 1.3rem;
+}

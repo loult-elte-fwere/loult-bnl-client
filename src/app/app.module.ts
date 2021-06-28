@@ -26,6 +26,9 @@ import { ContentPageComponent } from './components/content-page/content-page.com
 import { EditModalComponent } from './components/edit-modal/edit-modal.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import { TagsListComponent } from './components/tags-list/tags-list.component';
+import { HelpModalComponent } from './components/help-modal/help-modal.component';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -51,7 +54,10 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     ContentPageComponent,
     EditModalComponent,
     ConfirmationModalComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    UsersListComponent,
+    TagsListComponent,
+    HelpModalComponent
   ],
   imports: [
     BrowserModule,

@@ -2,13 +2,18 @@
      [ngClass]="{'prefix-activated' : this.queryType !== 'title'}">
 
   <ng-template #userTemplate let-r="result" let-t="term">
-    <img [src]="'assets/images/pokemon/small/' + r.img_id + '.gif'" >
+    <img [src]="'assets/images/pokemon/small/' + r.img_id + '.gif'">
     <ngb-highlight [result]="r.pokename + ' ' + r.adjective" [term]="t"></ngb-highlight>
   </ng-template>
 
   <ng-template #tagTemplate let-r="result" let-t="term">
     <span class="tag-list-prefix">3615</span>
     <ngb-highlight [result]="r" [term]="t"></ngb-highlight>
+  </ng-template>
+
+  <ng-template #titleTemplate let-r="result" let-t="term">
+    <i [ngClass]="'bi bi-file' + (r.file_type === 'image' ? '-image' : '-music')"></i>
+    <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
   </ng-template>
 
   <div id="search-prefix">
@@ -22,8 +27,8 @@
          (keydown.backspace)="clearPrefix()"
          [(ngModel)]="searchQuery"
          [ngbTypeahead]="searchFunction()"
-         [resultTemplate]="queryType === 'user' ? userTemplate : tagTemplate"
-         [editable]="queryType === 'title'"
+         [resultTemplate]="queryType === 'title' ? titleTemplate : (queryType === 'tag' ? tagTemplate: userTemplate)"
+         [editable]="false"
          (selectItem)="selectedItem($event)"
          popupClass="typeahead-popup"
   />

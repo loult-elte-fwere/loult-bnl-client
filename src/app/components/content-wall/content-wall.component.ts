@@ -10,6 +10,7 @@ import {Title} from '@angular/platform-browser';
 import {PaginationService} from '../../services/pagination.service';
 import {environment} from '../../../environments/environment';
 import {NavigationEnd, Router} from '@angular/router';
+import {ConfigService} from '../../services/config.service';
 
 const masonryOptions = {
   horizontalOrder: true,
@@ -32,7 +33,6 @@ export class ContentWallComponent implements OnInit, OnChanges {
 
   filesList: FileData[];
   masonryOptions = masonryOptions;
-  mediaFileQuery: MediaFileQuery;
   loadingData = false;
   @ViewChild(NgxMasonryComponent) masonry: NgxMasonryComponent;
 
@@ -40,6 +40,7 @@ export class ContentWallComponent implements OnInit, OnChanges {
               private usersService: UsersService,
               private eventsService: EventsService,
               private paginationService: PaginationService,
+              private configService: ConfigService,
               private router: Router,
               private title: Title) {
   }
@@ -75,9 +76,7 @@ export class ContentWallComponent implements OnInit, OnChanges {
   reset() {
     console.log('resetted!');
     this.paginationService.reset();
-    this.mediaFileQuery = {
-      max_creation_time: new Date().toISOString()
-    } as MediaFileQuery;
+    this.configService.fileQueryConfig.max_creation_time = new Date().toISOString();
     this.filesList = [];
 
   }
@@ -90,20 +89,20 @@ export class ContentWallComponent implements OnInit, OnChanges {
         user_id: this.userId,
         page: this.paginationService.currentPage,
         page_size: pageSize,
-        body: this.mediaFileQuery
+        body: this.configService.fileQueryConfig
       });
     } else if (this.tagName) {
       promise = this.mediaService.mediaContentListTagTagNamePost({
         tag_name: this.tagName,
         page: this.paginationService.currentPage,
         page_size: pageSize,
-        body: this.mediaFileQuery
+        body: this.configService.fileQueryConfig,
       });
     } else {
       promise = this.mediaService.mediaContentListLastUploadedPost({
         page: this.paginationService.currentPage,
         page_size: pageSize,
-        body: this.mediaFileQuery
+        body: this.configService.fileQueryConfig
       });
     }
     this.loadingData = true;

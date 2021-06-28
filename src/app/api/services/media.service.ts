@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { FileData } from '../models/file-data';
+import { FileShortData } from '../models/file-short-data';
 import { FileUpload } from '../models/file-upload';
 import { MediaFileQuery } from '../models/media-file-query';
 import { MultipartFile } from '../models/multipart-file';
@@ -412,15 +413,11 @@ export class MediaService extends BaseService {
    */
   mediaContentSearchGet$Response(params: {
     title: string;
-    page?: number;
-    page_size?: number;
-  }): Observable<StrictHttpResponse<Array<FileData>>> {
+  }): Observable<StrictHttpResponse<Array<FileShortData>>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentSearchGetPath, 'get');
     if (params) {
       rb.query('title', params.title, {});
-      rb.query('page', params.page, {});
-      rb.query('page_size', params.page_size, {});
     }
 
     return this.http.request(rb.build({
@@ -429,7 +426,7 @@ export class MediaService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<FileData>>;
+        return r as StrictHttpResponse<Array<FileShortData>>;
       })
     );
   }
@@ -442,12 +439,10 @@ export class MediaService extends BaseService {
    */
   mediaContentSearchGet(params: {
     title: string;
-    page?: number;
-    page_size?: number;
-  }): Observable<Array<FileData>> {
+  }): Observable<Array<FileShortData>> {
 
     return this.mediaContentSearchGet$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
+      map((r: StrictHttpResponse<Array<FileShortData>>) => r.body as Array<FileShortData>)
     );
   }
 

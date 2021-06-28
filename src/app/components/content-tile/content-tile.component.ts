@@ -11,6 +11,11 @@ import {BaseContentComponent} from '../base-content-component';
 export class ContentTileComponent extends BaseContentComponent implements OnInit {
   @Input() fileData: FileData;
 
+  ngOnInit() {
+    super.ngOnInit();
+    this.reloadHasArchived();
+  }
+
   postDeleteAction() {
     this.fileData = undefined;
   }

@@ -1,0 +1,32 @@
+#all-users {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.user-tile {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  background-color: white;
+  box-shadow: 0px 2px 3px 1px #000000;
+  padding: 10px;
+  margin: 10px;
+  text-decoration: none;
+  color: black;
+
+  img {
+    height: 70px;
+    margin: auto;
+  }
+
+  .profile-username {
+    font-size: 0.8rem;
+  }
+
+  .user-data {
+    margin-bottom: 3px;
+    font-family: "Pokemon Classic", "Ubuntu Mono", sans-serif;
+    font-size: 0.6rem;
+  }
+}

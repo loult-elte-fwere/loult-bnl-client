@@ -6,6 +6,7 @@ import {UploadModalComponent} from '../upload-modal/upload-modal.component';
 import {ConfigService} from '../../services/config.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EventsService} from '../../services/events.service';
+import {HelpModalComponent} from '../help-modal/help-modal.component';
 
 @Component({
   selector: 'bnl-header-bar',
@@ -37,12 +38,22 @@ export class HeaderBarComponent implements OnInit {
     this.modalService.open(UploadModalComponent);
   }
 
+  openHelpModal() {
+    this.modalService.open(HelpModalComponent, { size: 'lg' });
+  }
+
   logoClick() {
     if (this.router.url === '/last'){
       this.eventsService.refreshWall.emit();
     } else {
       this.router.navigate(['/last']);
     }
+  }
+
+  signalFilteringChange(){
+    console.log(this.configService.fileQueryConfig);
+    this.configService.storeQueryConfig();
+    this.eventsService.refreshWall.emit();
   }
 
 

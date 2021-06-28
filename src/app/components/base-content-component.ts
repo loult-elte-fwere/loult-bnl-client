@@ -35,7 +35,6 @@ export abstract class BaseContentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reloadHasArchived();
     this.eventsService.userLogout.subscribe(() => this.reloadHasArchived());
     this.eventsService.userLogin.subscribe(() => this.reloadHasArchived());
   }
@@ -91,7 +90,7 @@ export abstract class BaseContentComponent implements OnInit {
   }
 
   archiveIcon() {
-    return this.userHasArchivedFile ? 'assets/images/icons/unarchive.svg' : 'assets/images/icons/archive.svg';
+    return this.userHasArchivedFile ? 'assets/images/icons/star-2.svg' : 'assets/images/icons/star-1.svg';
   }
 
   archiveActionToolTip() {

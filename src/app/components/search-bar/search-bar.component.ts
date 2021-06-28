@@ -1,13 +1,21 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {UserData} from '../../api/models/user-data';
 import {TagData} from '../../api/models/tag-data';
 import {UsersService} from '../../api/services/users.service';
 import {Observable, OperatorFunction} from 'rxjs';
-import {debounceTime, map} from 'rxjs/operators';
+import {debounceTime, map, switchMap} from 'rxjs/operators';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
-import {TagsList} from '../../api/models/tags-list';
+import {FileShortData} from '../../api/models/file-short-data';
+import {MediaService} from '../../api/services/media.service';
+import {ResultTemplateContext} from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
 
+export interface SearchTypeConfig {
+  searchFunction: OperatorFunction<string, any>;
+  placeHolder: string;
+}
+
+type QueryType = 'title' | 'tag' | 'user';
 
 @Component({
   selector: 'bnl-search-bar',
@@ -18,16 +26,35 @@ export class SearchBarComponent implements OnInit {
   users: UserData[];
   tags: string[];
   searchQuery: string | TagData | UserData;
-  queryType: 'title' | 'tag' | 'user' = 'title';
+  queryType: QueryType = 'title';
   firstClear = false;
+  searchTypeConfigs: { [key: string]: SearchTypeConfig; } = {};
 
   @ViewChild('searchBar') searchBar: ElementRef;
+  @ViewChild('tagTemplate') tagTemplate: TemplateRef<ResultTemplateContext>;
+  @ViewChild('userTemplate') userTemplate: TemplateRef<ResultTemplateContext>;
+  @ViewChild('titleTemplate') titleTemplate: TemplateRef<ResultTemplateContext>;
 
   constructor(private usersService: UsersService,
+              private mediaService: MediaService,
               private router: Router) {
   }
 
   ngOnInit(): void {
+    this.searchTypeConfigs = {
+      title: {
+        searchFunction: this.searchTitle,
+        placeHolder: 'Tapez 3615 pour une étiquette, @ pour un utilisateur'
+      },
+      tag: {
+        searchFunction: this.searchTag,
+        placeHolder: 'Cherchez une étiquette'
+      },
+      user: {
+        searchFunction: this.searchUser,
+        placeHolder: 'Cherchez un nom d\'utilisateur'
+      },
+    };
     this.loadLists();
   }
 
@@ -59,57 +86,31 @@ export class SearchBarComponent implements OnInit {
           .slice(0, 10))
     );
 
-  searchTitle: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+  searchTitle: OperatorFunction<string, readonly FileShortData[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => [])
-    );
+      switchMap(term => this.mediaService.mediaContentSearchGet({title: term}))
+    )
 
   searchFunction() {
-    switch (this.queryType) {
-      case 'user':
-        return this.searchUser;
-      case 'tag':
-        return this.searchTag;
-      case 'title':
-        return this.searchTitle;
-    }
+    return this.searchTypeConfigs[this.queryType].searchFunction;
   }
 
   placeholder() {
-    switch (this.queryType) {
-      case 'user':
-        return 'Cherchez un nom d\'utilisateur';
-      case 'tag':
-        return 'Cherchez une étiquette';
-      case 'title':
-        return 'Tapez 3615 pour un tag, @ pour un utilisateur';
-    }
+    return this.searchTypeConfigs[this.queryType].placeHolder;
   }
 
   clearPrefix() {
-    console.log('Backspaced!');
-    console.log(this.searchQuery);
-    console.log(this.searchBar.nativeElement.value);
-    console.log(this.firstClear);
     if (!this.searchBar.nativeElement.value) {
-      /*      if (!this.firstClear){
-              this.firstClear = true;
-            } else {
-              this.firstClear = false;
-              this.queryType = 'title';
-            }*/
       this.queryType = 'title';
     }
   }
 
   detectPrefix() {
-    console.log(this.searchQuery);
-    console.log(this.searchFunction());
-    if (this.searchQuery === '3615') {
+    if (this.searchBar.nativeElement.value === '3615') {
       this.queryType = 'tag';
       this.searchQuery = '';
-    } else if (this.searchQuery === '@') {
+    } else if (this.searchBar.nativeElement.value === '@') {
       this.queryType = 'user';
       this.searchQuery = '';
     }
@@ -120,10 +121,12 @@ export class SearchBarComponent implements OnInit {
     if (this.queryType === 'tag') {
       const item = event.item as string;
       routerPromise = this.router.navigate(['/tag', item]);
-
     } else if (this.queryType === 'user') {
       const item = event.item as UserData;
       routerPromise = this.router.navigate(['/user', item.userid]);
+    } else {
+      const item = event.item as FileShortData;
+      routerPromise = this.router.navigate(['/archive', item.file_id]);
     }
 
     if (routerPromise) {

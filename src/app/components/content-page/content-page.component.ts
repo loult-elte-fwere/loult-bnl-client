@@ -34,11 +34,19 @@ export class ContentPageComponent extends BaseContentComponent {
   }
 
   ngOnInit() {
+    super.ngOnInit();
     const fileId: string = this.route.snapshot.paramMap.get('file_id');
+    this.reloadFilePage(fileId);
+    this.route.params.subscribe((params) => {
+      this.reloadFilePage(params.file_id);
+    });
+  }
+
+  reloadFilePage(fileId: string) {
     this.mediaService.mediaContentDataFileIdGet({file_id: fileId}).subscribe(data => {
       this.fileData = data;
       this.setTitle();
-      super.ngOnInit();
+      this.reloadHasArchived();
     });
   }
 
@@ -49,8 +57,6 @@ export class ContentPageComponent extends BaseContentComponent {
   postDeleteAction() {
     this.router.navigate(['/last']);
   }
-
-
 
 
 }
