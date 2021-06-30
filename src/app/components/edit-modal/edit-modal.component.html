@@ -13,10 +13,25 @@
     <div *ngIf="userCanEditTitle()" class="input-group">
       <span class="input-group-text" id="tags-label">Tags</span>
       <input id="tags-input" type="text" class="form-control"
+             #currentTagInput="ngModel"
+             [ngClass]="{'is-invalid' : currentTagInput.errors}"
+             minlength="2"
+             maxlength="20"
+             pattern="^[a-zA-Z0-9&àéèôêâûïü]+(-[a-zA-Z0-9&àéèôêâûïü]+)*$"
              (keyup.enter)="addTag()"
              name="current-tag"
              placeholder="Ajoutez des tags avec ⏎ "
              [(ngModel)]="currentTag" [ngbTypeahead]="search"/>
+      <div *ngIf="currentTagInput.errors && currentTagInput.errors.minLength" class="invalid-feedback">
+        Plus de 2 caractères pour un tag.
+      </div>
+      <div *ngIf="currentTagInput.errors && currentTagInput.errors.maxLength" class="invalid-feedback">
+        Pas plus de 20 caractères pour un tag.
+      </div>
+      <div *ngIf="currentTagInput.errors && currentTagInput.errors.pattern" class="invalid-feedback">
+        Un tag ne peut contenir que des lettres, chiffres, des & des tirets (-), et doit globalement
+        ressembler-a-ça
+      </div>
     </div>
 
     <ul class="tags-list" *ngIf="userCanEditTags()">

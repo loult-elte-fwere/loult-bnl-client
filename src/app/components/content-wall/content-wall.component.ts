@@ -109,7 +109,7 @@ export class ContentWallComponent implements OnInit, OnChanges {
     promise.subscribe(data => {
       this.loadingData = false;
       this.filesList = this.filesList.concat(data);
-      this.paginationService.currentPage++;
+      this.paginationService.currentPage += 1;
     });
   }
 

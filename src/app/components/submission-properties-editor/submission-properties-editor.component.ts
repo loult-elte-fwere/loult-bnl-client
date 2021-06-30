@@ -4,6 +4,7 @@ import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {UsersService} from '../../api/services/users.service';
 import {FileMetaData} from '../../api/models/file-meta-data';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'bnl-submission-properties-editor',
@@ -15,6 +16,7 @@ export class SubmissionPropertiesEditorComponent implements OnInit {
   @Output() contentMetadataChange = new EventEmitter<FileMetaData>();
   currentTag: string;
   allTags: string[];
+
 
   constructor(
     public roleProvider: RoleProvider,
