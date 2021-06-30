@@ -8,8 +8,8 @@ import {environment} from '../../environments/environment';
 import {EventsService} from '../services/events.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ConfigService} from '../services/config.service';
-import {ConfirmationModalComponent} from './confirmation-modal/confirmation-modal.component';
-import {EditModalComponent} from './edit-modal/edit-modal.component';
+import {ConfirmationModalComponent} from './modals/confirmation-modal/confirmation-modal.component';
+import {EditModalComponent} from './modals/edit-modal/edit-modal.component';
 import {FileMetaData} from '../api/models/file-meta-data';
 
 @Component({

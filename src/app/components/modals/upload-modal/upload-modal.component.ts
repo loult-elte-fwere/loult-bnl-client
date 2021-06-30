@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {MediaService} from '../../api/services/media.service';
+import {MediaService} from '../../../api/services/media.service';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {EventsService} from '../../services/events.service';
-import {RoleProvider} from '../../services/role-provider';
-import {FileMetaData} from '../../api/models/file-meta-data';
-import {ToastService} from '../../services/toast.service';
+import {EventsService} from '../../../services/events.service';
+import {RoleProvider} from '../../../services/role-provider';
+import {FileMetaData} from '../../../api/models/file-meta-data';
+import {ToastService} from '../../../services/toast.service';
 
 // todo: add ctrl v upload https://stackoverflow.com/questions/49920652/detect-ctrl-c-and-ctrl-v-in-an-input-from-browsers
 @Component({

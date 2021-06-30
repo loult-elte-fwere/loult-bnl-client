@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {RoleProvider} from '../../services/role-provider';
+import {RoleProvider} from '../../../services/role-provider';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import {UsersService} from '../../api/services/users.service';
-import {FileMetaData} from '../../api/models/file-meta-data';
+import {UsersService} from '../../../api/services/users.service';
+import {FileMetaData} from '../../../api/models/file-meta-data';
 import {FormControl} from '@angular/forms';
 
 @Component({

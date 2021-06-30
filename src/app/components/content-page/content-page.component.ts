@@ -6,7 +6,7 @@ import {ClipboardService} from 'ngx-clipboard';
 import {ContentTileComponent} from '../content-tile/content-tile.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EditModalComponent} from '../edit-modal/edit-modal.component';
+import {EditModalComponent} from '../modals/edit-modal/edit-modal.component';
 import {FileMetaData} from '../../api/models/file-meta-data';
 import {EventsService} from '../../services/events.service';
 import {BaseContentComponent} from '../base-content-component';

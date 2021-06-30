@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {RoleProvider} from '../../services/role-provider';
+import {RoleProvider} from '../../../services/role-provider';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import {FileMetaData} from '../../api/models/file-meta-data';
-import {UsersService} from '../../api/services/users.service';
-import {FileData} from '../../api/models/file-data';
+import {FileMetaData} from '../../../api/models/file-meta-data';
+import {UsersService} from '../../../api/services/users.service';
+import {FileData} from '../../../api/models/file-data';
 
 @Component({
   selector: 'bnl-edit-modal',

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {RoleProvider} from '../../services/role-provider';
 import {CookieStorageService} from '../../services/cookie-storage.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {UploadModalComponent} from '../upload-modal/upload-modal.component';
+import {UploadModalComponent} from '../modals/upload-modal/upload-modal.component';
 import {ConfigService} from '../../services/config.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EventsService} from '../../services/events.service';
-import {HelpModalComponent} from '../help-modal/help-modal.component';
+import {HelpModalComponent} from '../modals/help-modal/help-modal.component';
 
 @Component({
   selector: 'bnl-header-bar',

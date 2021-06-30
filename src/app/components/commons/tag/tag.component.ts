@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UserData} from '../../api/models/user-data';
-import {TagData} from '../../api/models/tag-data';
+import {UserData} from '../../../api/models/user-data';
+import {TagData} from '../../../api/models/tag-data';
 
 @Component({
   selector: 'bnl-tag',

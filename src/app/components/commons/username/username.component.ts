@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UserData} from '../../api/models/user-data';
+import {UserData} from '../../../api/models/user-data';
 
 @Component({
   selector: 'bnl-username',
