@@ -18,7 +18,7 @@
              minlength="2"
              maxlength="20"
              pattern="^[a-zA-Z0-9&àéèôêâûïü]+(-[a-zA-Z0-9&àéèôêâûïü]+)*$"
-             (keyup.enter)="addTag()"
+             (keyup.enter)="currentTagInput.errors ? undefined :  addTag()"
              name="current-tag"
              placeholder="Ajoutez des tags avec ⏎ "
              [(ngModel)]="currentTag" [ngbTypeahead]="search"/>
