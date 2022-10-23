@@ -6,6 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { MediaService } from './services/media.service';
 import { UsersService } from './services/users.service';
+import { AdminService } from './services/admin.service';
 
 /**
  * Module that provides all services and configuration.
@@ -17,6 +18,7 @@ import { UsersService } from './services/users.service';
   providers: [
     MediaService,
     UsersService,
+    AdminService,
     ApiConfiguration
   ],
 })

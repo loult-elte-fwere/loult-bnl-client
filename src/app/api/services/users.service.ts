@@ -14,7 +14,6 @@ import { FileMetaData } from '../models/file-meta-data';
 import { MediaFileQuery } from '../models/media-file-query';
 import { TagsList } from '../models/tags-list';
 import { UserData } from '../models/user-data';
-import { UserId } from '../models/user-id';
 
 @Injectable({
   providedIn: 'root',
@@ -156,52 +155,6 @@ export class UsersService extends BaseService {
 
     return this.usersDataAllGet$Response(params).pipe(
       map((r: StrictHttpResponse<Array<UserData>>) => r.body as Array<UserData>)
-    );
-  }
-
-  /**
-   * Path part for operation usersDeleteDelete
-   */
-  static readonly UsersDeleteDeletePath = '/users/delete/';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `usersDeleteDelete()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersDeleteDelete$Response(params: {
-    body: UserId
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, UsersService.UsersDeleteDeletePath, 'delete');
-    if (params) {
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `usersDeleteDelete$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  usersDeleteDelete(params: {
-    body: UserId
-  }): Observable<void> {
-
-    return this.usersDeleteDelete$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
