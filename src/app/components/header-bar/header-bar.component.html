@@ -52,6 +52,15 @@
              [(ngModel)]="configService.deleteSafeMode">
       <label class="form-check-label" for="safemode-switch">Sécurité Suppression</label>
     </div>
+    <div *ngIf="roleProvider.userData.permissions.can_lock_bnl"
+         id="lock-switch-block" ngbTooltip="Verrouiller les uploads"
+         class="form-check form-switch align-items-center">
+      <input class="form-check-input" type="checkbox" id="lock-switch"
+             (ngModelChange)="updateLock()"
+             [(ngModel)]="lockStatus">
+      <label class="form-check-label" for="lock-switch">Verrouiller la BNL</label>
+
+    </div>
     <button (click)="roleProvider.logout()" id="logout-button"
             class="btn btn-outline-primary btn-sm">
       Déconnexion

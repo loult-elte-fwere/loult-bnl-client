@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RoleProvider} from '../../services/role-provider';
 import {CookieStorageService} from '../../services/cookie-storage.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,7 @@ import {ConfigService} from '../../services/config.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EventsService} from '../../services/events.service';
 import {HelpModalComponent} from '../modals/help-modal/help-modal.component';
+import {AdminService} from '../../api/services/admin.service';
 
 @Component({
   selector: 'bnl-header-bar',
@@ -15,6 +16,7 @@ import {HelpModalComponent} from '../modals/help-modal/help-modal.component';
 })
 export class HeaderBarComponent implements OnInit {
   cookie: string;
+  lockStatus: boolean;
 
   constructor(
     public roleProvider: RoleProvider,
@@ -22,14 +24,19 @@ export class HeaderBarComponent implements OnInit {
     private eventsService: EventsService,
     private modalService: NgbModal,
     public configService: ConfigService,
-    public activatedRoute: ActivatedRoute,
+    public adminService: AdminService,
     private router: Router
-  ) { }
-
-  ngOnInit() {
+  ) {
   }
 
-  login(){
+  ngOnInit() {
+    this.eventsService.userLogin.subscribe(() => {
+      this.adminService.adminLockdownGet().subscribe(
+        data => this.lockStatus = data.locked);
+    });
+  }
+
+  login() {
     this.cookieService.setCookie(this.cookie);
     this.roleProvider.login();
   }
@@ -39,18 +46,29 @@ export class HeaderBarComponent implements OnInit {
   }
 
   openHelpModal() {
-    this.modalService.open(HelpModalComponent, { size: 'lg' });
+    this.modalService.open(HelpModalComponent, {size: 'lg'});
+  }
+
+  updateLock() {
+    const currentLockStatus = this.lockStatus;
+    this.adminService.adminLockdownPatch(
+      {body: {locked: !this.lockStatus}}
+    ).subscribe(
+      () => {
+      },
+      () => this.lockStatus = currentLockStatus
+    );
   }
 
   logoClick() {
-    if (this.router.url === '/last'){
+    if (this.router.url === '/last') {
       this.eventsService.refreshWall.emit();
     } else {
       this.router.navigate(['/last']);
     }
   }
 
-  signalFilteringChange(){
+  signalFilteringChange() {
     console.log(this.configService.fileQueryConfig);
     this.configService.storeQueryConfig();
     this.eventsService.refreshWall.emit();
