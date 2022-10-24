@@ -4,7 +4,7 @@
     <div class="user-data">
       <div class="profile-username">
         <p [ngStyle]="{color: user.color}">{{user.pokename}} {{user.adjective}}</p>
-        <p>{{user.role_names.join(', ')}}</p>
+        <p>{{user.roles | userRolesFormat}}</p>
       </div>
       <p>{{user.uploaded_files_count}} documents soumis</p>
       <p>{{user.archived_files_count}} documents archivés</p>

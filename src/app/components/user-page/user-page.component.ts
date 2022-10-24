@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UsersService} from '../../api/services/users.service';
 import {UserData} from '../../api/models/user-data';
 import {Title} from '@angular/platform-browser';
 import {EventsService} from '../../services/events.service';
+import {RoleProvider} from '../../services/role-provider';
+import {AdminService} from '../../api/services/admin.service';
 
 @Component({
   selector: 'bnl-user-page',
@@ -16,6 +18,9 @@ export class UserPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private userService: UsersService,
               private eventsService: EventsService,
+              private adminService: AdminService,
+              public roleProvider: RoleProvider,
+              private router: Router,
               private title: Title) {
   }
 
@@ -35,8 +40,59 @@ export class UserPageComponent implements OnInit {
     });
   }
 
+  userIsTrash() {
+    const roles = Object.keys(this.userData.roles);
+    return roles.length === 1 && roles[0] === 'TRASH';
+  }
+
+
+  showRestoreButton() {
+    return (this.roleProvider.isLoggedIn()
+      && this.roleProvider.userData.permissions.can_trash_users
+      && this.userIsTrash());
+  }
+
+  showTrashButton() {
+    return (this.roleProvider.isLoggedIn()
+      && this.roleProvider.userData.permissions.can_trash_users
+      && !this.userIsTrash());
+
+  }
+
+  deleteUser() {
+    this.adminService.adminDeleteUserDelete({body: {user_id: this.userData.userid}}).subscribe(
+      () => {
+        this.router.navigate(['/last']);
+      }
+    );
+  }
+
+  trashUser() {
+    this.adminService.adminTrashUserPost({
+        body: {
+          user_id: this.userData.userid,
+          trashed: true
+        }
+      }
+    ).subscribe(
+      (userData) => this.userData = userData
+    );
+  }
+
+  restoreUser() {
+    this.adminService.adminTrashUserPost({
+        body: {
+          user_id: this.userData.userid,
+          trashed: false
+        }
+      }
+    ).subscribe(
+      (userData) => this.userData = userData
+    );
+  }
+
   userImgUrl(): string {
-    return `assets/images/pokemon/big/${this.userData.img_id}.png`
+    return `assets/images/pokemon/big/${this.userData.img_id}.png`;
   }
 
 }

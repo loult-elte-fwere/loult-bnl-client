@@ -3,7 +3,7 @@
     <button *ngIf="fileCanBeEdited()"
             (click)="editContent()"
             class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></button>
-    <button *ngIf="roleProvider.isLogged() && roleProvider.userData.permissions.can_delete_files"
+    <button *ngIf="roleProvider.isLoggedIn() && roleProvider.userData.permissions.can_delete_files"
             (click)="deleteContent()"
             class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
   </div>
@@ -20,7 +20,7 @@
 
     <div id="metadata-side">
       <div class="actions">
-        <button [disabled]="roleProvider.isLogged() && !roleProvider.userData.permissions.can_archive"
+        <button [disabled]="roleProvider.isLoggedIn() && !roleProvider.userData.permissions.can_archive"
                 (click)="archiveToggle()">
           <img [src]="archiveIcon()" [ngbTooltip]="archiveActionToolTip()">
         </button>

@@ -20,7 +20,7 @@ export class RoleProvider {
     }
   }
 
-  public isLogged(): boolean {
+  public isLoggedIn(): boolean {
     return this.userData !== undefined;
   }
 

@@ -41,7 +41,7 @@
 <ng-template #currentUserPopover>
   <div id="current-user-popover">
     <h3 id="user-roles">
-      {{ roleProvider.userData.role_names.join(", ")}}
+      {{ roleProvider.userData.roles | userRolesFormat}}
     </h3>
     <p><b>{{roleProvider.userData.uploaded_files_count}}</b> soumis</p>
     <p><b>{{roleProvider.userData.archived_files_count}}</b> archivés</p>
@@ -81,9 +81,9 @@
   </div>
 
   <div id="submission-buttons">
-    <button id="submit-file" [disabled]="!roleProvider.isLogged()"
+    <button id="submit-file" [disabled]="!roleProvider.isLoggedIn()"
             (click)="openUploadModal()"
-            [ngbTooltip]="roleProvider.isLogged() ? 'Soumettre une archive' : 'Doume le cookie pour pourvoir uploader'"
+            [ngbTooltip]="roleProvider.isLoggedIn() ? 'Soumettre une archive' : 'Doume le cookie pour pourvoir uploader'"
             class="upload-button bnl-button">
       <img src="assets/images/icons/upload-grey.svg">
       <span>Envoyer une archive</span>
@@ -94,7 +94,7 @@
     </button>
   </div>
 
-  <div *ngIf="!roleProvider.isLogged()" id="login-block">
+  <div *ngIf="!roleProvider.isLoggedIn()" id="login-block">
     <input [(ngModel)]="cookie" class="form-control"
            type="password"
            (keyup.enter)="login()"
@@ -102,7 +102,7 @@
     <button class="btn btn-outline-primary" (click)="login()">Valider</button>
   </div>
 
-  <bnl-username *ngIf="roleProvider.isLogged()" id="current-username"
+  <bnl-username *ngIf="roleProvider.isLoggedIn()" id="current-username"
                 [userData]="roleProvider.userData"
                 [ngbPopover]="currentUserPopover"
                 autoClose="outside"

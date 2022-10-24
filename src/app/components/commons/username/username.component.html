@@ -1,5 +1,6 @@
-<ng-template #popTitle><b>{{userData.role_names.join(', ')}}</b></ng-template>
-<ng-template #popContent >{{userData.uploaded_files_count}} envoyés, {{userData.archived_files_count}} archivés</ng-template>
+<ng-template #popTitle><b>{{userData.roles | userRolesFormat}}</b></ng-template>
+<ng-template #popContent>{{userData.uploaded_files_count}} envoyés, {{userData.archived_files_count}}archivés
+</ng-template>
 
 <span [style]="getColor()"
       [routerLink]="['/user', userData.userid]"

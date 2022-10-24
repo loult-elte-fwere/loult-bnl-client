@@ -40,7 +40,7 @@ export abstract class BaseContentComponent implements OnInit {
   }
 
   reloadHasArchived() {
-    if (!this.roleProvider.isLogged()) {
+    if (!this.roleProvider.isLoggedIn()) {
       this.userHasArchivedFile = false;
       return;
     } else {
@@ -94,7 +94,7 @@ export abstract class BaseContentComponent implements OnInit {
   }
 
   archiveActionToolTip() {
-    if (this.roleProvider.isLogged() && this.roleProvider.userData.permissions.can_archive) {
+    if (this.roleProvider.isLoggedIn() && this.roleProvider.userData.permissions.can_archive) {
       return this.userHasArchivedFile ? 'Désarchiver ce document' : 'Archiver ce document';
     } else {
       return 'Vous ne pouvez pas archiver des documents';
@@ -120,7 +120,7 @@ export abstract class BaseContentComponent implements OnInit {
   }
 
   fileCanBeEdited() {
-    if (!this.roleProvider.isLogged()) {
+    if (!this.roleProvider.isLoggedIn()) {
       return false;
     }
     const currentUserId = this.roleProvider.userData.userid;

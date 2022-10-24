@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { Lockdown } from '../models/lockdown';
+import { Trash } from '../models/trash';
+import { UserData } from '../models/user-data';
 import { UserId } from '../models/user-id';
 
 @Injectable({
@@ -81,8 +83,8 @@ export class AdminService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   adminTrashUserPost$Response(params: {
-    body: UserId
-  }): Observable<StrictHttpResponse<void>> {
+    body: Trash
+  }): Observable<StrictHttpResponse<UserData>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminService.AdminTrashUserPostPath, 'post');
     if (params) {
@@ -90,12 +92,12 @@ export class AdminService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
+      responseType: 'json',
+      accept: 'application/json'
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<UserData>;
       })
     );
   }
@@ -107,11 +109,11 @@ export class AdminService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   adminTrashUserPost(params: {
-    body: UserId
-  }): Observable<void> {
+    body: Trash
+  }): Observable<UserData> {
 
     return this.adminTrashUserPost$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+      map((r: StrictHttpResponse<UserData>) => r.body as UserData)
     );
   }
 

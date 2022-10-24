@@ -44,7 +44,7 @@ export class SearchBarComponent implements OnInit {
     this.searchTypeConfigs = {
       title: {
         searchFunction: this.searchTitle,
-        placeHolder: 'Tapez 3615 pour une étiquette, @ pour un utilisateur'
+        placeHolder: 'Tapez 3615 ou # pour une étiquette, @ pour un utilisateur'
       },
       tag: {
         searchFunction: this.searchTag,
@@ -90,7 +90,7 @@ export class SearchBarComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       switchMap(term => this.mediaService.mediaContentSearchGet({title: term}))
-    )
+    );
 
   searchFunction() {
     return this.searchTypeConfigs[this.queryType].searchFunction;
@@ -107,7 +107,7 @@ export class SearchBarComponent implements OnInit {
   }
 
   detectPrefix() {
-    if (this.searchBar.nativeElement.value === '3615') {
+    if (this.searchBar.nativeElement.value === '3615' || this.searchBar.nativeElement.value === '#') {
       this.queryType = 'tag';
       this.searchQuery = '';
     } else if (this.searchBar.nativeElement.value === '@') {

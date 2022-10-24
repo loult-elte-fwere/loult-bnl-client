@@ -10,4 +10,5 @@ export { MediaFileQuery } from './models/media-file-query';
 export { FileShortData } from './models/file-short-data';
 export { TagsList } from './models/tags-list';
 export { UserId } from './models/user-id';
+export { Trash } from './models/trash';
 export { Lockdown } from './models/lockdown';

@@ -12,8 +12,19 @@
 
 #user-data {
   margin-bottom: 3px;
+  margin-left: 5px;
   font-family: "Pokemon Classic", "Ubuntu Mono", sans-serif;
   font-size: 0.5rem;
+
+  button {
+    font-size: 0.5rem;
+  }
+}
+
+#user-admin-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #profile-username {
