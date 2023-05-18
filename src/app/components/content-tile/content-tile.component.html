@@ -3,7 +3,7 @@
     <img [src]="miniatureLink()" [alt]="fileData.title">
   </a>
 
-  <audio *ngIf="fileData.file_type === 'audio'" controls preload="none">
+  <audio *ngIf="fileData.file_type === 'audio'" controls preload="metadata">
     <source [src]="mediaLink()">
   </audio>
   <video *ngIf="fileData.file_type === 'video'" controls preload="metadata">
