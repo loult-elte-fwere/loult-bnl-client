@@ -5,8 +5,11 @@
   <ng-container *ngIf="fileUrl">
     <img *ngIf="fileUrl !== undefined && selectedFile.type.startsWith('image')" [src]="fileUrl">
     <audio *ngIf="selectedFile.type.startsWith('audio')" controls preload="none">
-      <source [src]="fileUrl" type="audio/ogg">
+      <source [src]="fileUrl">
     </audio>
+    <video *ngIf="selectedFile.type.startsWith('video')" controls preload="none">
+      <source [src]="fileUrl">
+    </video>
   </ng-container>
 
   <p *ngIf="fileUploaded"> Fichier envoyé!</p>

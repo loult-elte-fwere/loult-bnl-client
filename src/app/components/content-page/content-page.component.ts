@@ -58,5 +58,9 @@ export class ContentPageComponent extends BaseContentComponent {
     this.router.navigate(['/last']);
   }
 
+  openImg(){
+    window.open(this.mediaLink());
+  }
+
 
 }

@@ -58,12 +58,11 @@
   display: flex;
   align-items: center;
 
-  img {
+  img, audio, video {
     width: 100%;
   }
-  audio {
-    width: 100%;
-
+  img {
+    cursor: pointer;
   }
 }
 

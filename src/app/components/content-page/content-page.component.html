@@ -11,11 +11,15 @@
 
   <div id="card-body">
     <div id="media-side">
-      <img *ngIf="fileData.file_type === 'image' " [src]="imgLink()" [alt]="fileData.title">
+      <img *ngIf="fileData.file_type === 'image' " [src]="mediaLink()" [alt]="fileData.title"
+      (click)="openImg()">
       <audio *ngIf="fileData.file_type === 'audio'" controls preload="none"
              class="align-middle">
-        <source [src]="audioLink()" type="audio/ogg">
+        <source [src]="mediaLink()">
       </audio>
+      <video *ngIf="fileData.file_type === 'video'" controls preload="metadata">
+        <source [src]="mediaLink()">
+      </video>
     </div>
 
     <div id="metadata-side">

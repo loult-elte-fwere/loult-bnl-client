@@ -59,17 +59,12 @@ export abstract class BaseContentComponent implements OnInit {
     return environment.api_root + '/media/content/image/miniature/' + this.fileData.file_id;
   }
 
-  imgLink() {
-    return environment.api_root + '/media/content/image/' + this.fileData.file_id;
-  }
-
-  audioLink() {
-    return environment.api_root + '/media/content/audio/' + this.fileData.file_id;
+  mediaLink(){
+    return `${environment.api_root}/media/content/${this.fileData.file_type}/${this.fileData.file_id}`;
   }
 
   copyLink() {
-    const link = this.fileData.file_type === 'audio' ? this.audioLink() : this.imgLink();
-    this.clipboard.copy(link);
+    this.clipboard.copy(this.mediaLink());
   }
 
 
