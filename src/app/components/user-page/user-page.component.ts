@@ -6,6 +6,7 @@ import {Title} from '@angular/platform-browser';
 import {EventsService} from '../../services/events.service';
 import {RoleProvider} from '../../services/role-provider';
 import {AdminService} from '../../api/services/admin.service';
+import {UserLibraryFilters} from "../../api/models/user-library-filters";
 
 @Component({
   selector: 'bnl-user-page',
@@ -14,6 +15,11 @@ import {AdminService} from '../../api/services/admin.service';
 })
 export class UserPageComponent implements OnInit {
   userData: UserData;
+  userFilters = {
+    query_archived_by_others: false,
+    query_archived_by_user: true,
+    query_submissions: false
+  } as UserLibraryFilters;
 
   constructor(private route: ActivatedRoute,
               private userService: UsersService,
@@ -32,6 +38,8 @@ export class UserPageComponent implements OnInit {
       this.loadUserData(routeUserId);
     });
   }
+
+
 
   loadUserData(userId: string) {
     this.userService.usersDataUserIdGet({user_id: userId}).subscribe(data => {
@@ -93,6 +101,10 @@ export class UserPageComponent implements OnInit {
 
   userImgUrl(): string {
     return `assets/images/pokemon/big/${this.userData.img_id}.png`;
+  }
+
+  signalFilteringChange() {
+    this.eventsService.refreshWall.emit();
   }
 
 }

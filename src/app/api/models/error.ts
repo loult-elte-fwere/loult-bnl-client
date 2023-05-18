@@ -10,7 +10,8 @@ export interface Error {
   /**
    * Errors
    */
-  errors?: {  };
+  errors?: {
+};
 
   /**
    * Error message

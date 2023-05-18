@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpContext } from '@angular/common/http';
 import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
@@ -38,7 +38,10 @@ export class AdminService extends BaseService {
    */
   adminDeleteUserDelete$Response(params: {
     body: UserId
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminService.AdminDeleteUserDeletePath, 'delete');
     if (params) {
@@ -47,7 +50,8 @@ export class AdminService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: '*/*'
+      accept: '*/*',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -57,16 +61,19 @@ export class AdminService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `adminDeleteUserDelete$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   adminDeleteUserDelete(params: {
     body: UserId
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.adminDeleteUserDelete$Response(params).pipe(
+): Observable<void> {
+
+    return this.adminDeleteUserDelete$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -84,7 +91,10 @@ export class AdminService extends BaseService {
    */
   adminTrashUserPost$Response(params: {
     body: Trash
-  }): Observable<StrictHttpResponse<UserData>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<UserData>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminService.AdminTrashUserPostPath, 'post');
     if (params) {
@@ -93,7 +103,8 @@ export class AdminService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -103,16 +114,19 @@ export class AdminService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `adminTrashUserPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   adminTrashUserPost(params: {
     body: Trash
-  }): Observable<UserData> {
+  },
+  context?: HttpContext
 
-    return this.adminTrashUserPost$Response(params).pipe(
+): Observable<UserData> {
+
+    return this.adminTrashUserPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<UserData>) => r.body as UserData)
     );
   }
@@ -129,7 +143,10 @@ export class AdminService extends BaseService {
    * This method doesn't expect any request body.
    */
   adminLockdownGet$Response(params?: {
-  }): Observable<StrictHttpResponse<Lockdown>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Lockdown>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminService.AdminLockdownGetPath, 'get');
     if (params) {
@@ -137,7 +154,8 @@ export class AdminService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -147,15 +165,18 @@ export class AdminService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `adminLockdownGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   adminLockdownGet(params?: {
-  }): Observable<Lockdown> {
+  },
+  context?: HttpContext
 
-    return this.adminLockdownGet$Response(params).pipe(
+): Observable<Lockdown> {
+
+    return this.adminLockdownGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<Lockdown>) => r.body as Lockdown)
     );
   }
@@ -173,7 +194,10 @@ export class AdminService extends BaseService {
    */
   adminLockdownPatch$Response(params: {
     body: Lockdown
-  }): Observable<StrictHttpResponse<Lockdown>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Lockdown>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminService.AdminLockdownPatchPath, 'patch');
     if (params) {
@@ -182,7 +206,8 @@ export class AdminService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -192,16 +217,19 @@ export class AdminService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `adminLockdownPatch$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   adminLockdownPatch(params: {
     body: Lockdown
-  }): Observable<Lockdown> {
+  },
+  context?: HttpContext
 
-    return this.adminLockdownPatch$Response(params).pipe(
+): Observable<Lockdown> {
+
+    return this.adminLockdownPatch$Response(params,context).pipe(
       map((r: StrictHttpResponse<Lockdown>) => r.body as Lockdown)
     );
   }

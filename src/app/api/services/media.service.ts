@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpContext } from '@angular/common/http';
 import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
@@ -9,6 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { Error } from '../models/error';
 import { FileData } from '../models/file-data';
 import { FileShortData } from '../models/file-short-data';
 import { FileUpload } from '../models/file-upload';
@@ -39,7 +40,10 @@ export class MediaService extends BaseService {
    */
   mediaUploadJsonPost$Response(params: {
     body: FileUpload
-  }): Observable<StrictHttpResponse<FileData>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<FileData>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaUploadJsonPostPath, 'post');
     if (params) {
@@ -48,7 +52,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -58,16 +63,19 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaUploadJsonPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   mediaUploadJsonPost(params: {
     body: FileUpload
-  }): Observable<FileData> {
+  },
+  context?: HttpContext
 
-    return this.mediaUploadJsonPost$Response(params).pipe(
+): Observable<FileData> {
+
+    return this.mediaUploadJsonPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<FileData>) => r.body as FileData)
     );
   }
@@ -85,7 +93,10 @@ export class MediaService extends BaseService {
    */
   mediaUploadMultipartPost$Response(params: {
     body: MultipartFile
-  }): Observable<StrictHttpResponse<FileData>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<FileData>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaUploadMultipartPostPath, 'post');
     if (params) {
@@ -94,7 +105,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -104,17 +116,73 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaUploadMultipartPost$Response()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
   mediaUploadMultipartPost(params: {
     body: MultipartFile
-  }): Observable<FileData> {
+  },
+  context?: HttpContext
 
-    return this.mediaUploadMultipartPost$Response(params).pipe(
+): Observable<FileData> {
+
+    return this.mediaUploadMultipartPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<FileData>) => r.body as FileData)
+    );
+  }
+
+  /**
+   * Path part for operation mediaContentVideoFileIdGet
+   */
+  static readonly MediaContentVideoFileIdGetPath = '/media/content/video/{file_id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `mediaContentVideoFileIdGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentVideoFileIdGet$Response(params: {
+    file_id: string;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Error>> {
+
+    const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentVideoFileIdGetPath, 'get');
+    if (params) {
+      rb.path('file_id', params.file_id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Error>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `mediaContentVideoFileIdGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  mediaContentVideoFileIdGet(params: {
+    file_id: string;
+  },
+  context?: HttpContext
+
+): Observable<Error> {
+
+    return this.mediaContentVideoFileIdGet$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Error>) => r.body as Error)
     );
   }
 
@@ -131,7 +199,10 @@ export class MediaService extends BaseService {
    */
   mediaContentAudioFileIdGet$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Error>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentAudioFileIdGetPath, 'get');
     if (params) {
@@ -139,28 +210,32 @@ export class MediaService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<Error>;
       })
     );
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentAudioFileIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentAudioFileIdGet(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentAudioFileIdGet$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+): Observable<Error> {
+
+    return this.mediaContentAudioFileIdGet$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Error>) => r.body as Error)
     );
   }
 
@@ -177,7 +252,10 @@ export class MediaService extends BaseService {
    */
   mediaContentImageFileIdGet$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Error>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentImageFileIdGetPath, 'get');
     if (params) {
@@ -185,28 +263,32 @@ export class MediaService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<Error>;
       })
     );
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentImageFileIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentImageFileIdGet(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentImageFileIdGet$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+): Observable<Error> {
+
+    return this.mediaContentImageFileIdGet$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Error>) => r.body as Error)
     );
   }
 
@@ -223,7 +305,10 @@ export class MediaService extends BaseService {
    */
   mediaContentFileIdGet$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Error>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentFileIdGetPath, 'get');
     if (params) {
@@ -231,28 +316,32 @@ export class MediaService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<Error>;
       })
     );
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentFileIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentFileIdGet(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentFileIdGet$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+): Observable<Error> {
+
+    return this.mediaContentFileIdGet$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Error>) => r.body as Error)
     );
   }
 
@@ -269,7 +358,10 @@ export class MediaService extends BaseService {
    */
   mediaContentImageMiniatureFileIdGet$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Error>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentImageMiniatureFileIdGetPath, 'get');
     if (params) {
@@ -277,28 +369,32 @@ export class MediaService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<Error>;
       })
     );
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentImageMiniatureFileIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentImageMiniatureFileIdGet(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentImageMiniatureFileIdGet$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+): Observable<Error> {
+
+    return this.mediaContentImageMiniatureFileIdGet$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Error>) => r.body as Error)
     );
   }
 
@@ -315,7 +411,10 @@ export class MediaService extends BaseService {
    */
   mediaContentDataFileIdGet$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<FileData>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<FileData>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentDataFileIdGetPath, 'get');
     if (params) {
@@ -324,7 +423,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -334,16 +434,19 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentDataFileIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentDataFileIdGet(params: {
     file_id: string;
-  }): Observable<FileData> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentDataFileIdGet$Response(params).pipe(
+): Observable<FileData> {
+
+    return this.mediaContentDataFileIdGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<FileData>) => r.body as FileData)
     );
   }
@@ -363,7 +466,10 @@ export class MediaService extends BaseService {
     page?: number;
     page_size?: number;
     body: MediaFileQuery
-  }): Observable<StrictHttpResponse<Array<FileData>>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<FileData>>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListLastUploadedPostPath, 'post');
     if (params) {
@@ -374,7 +480,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -384,7 +491,7 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentListLastUploadedPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
@@ -393,9 +500,12 @@ export class MediaService extends BaseService {
     page?: number;
     page_size?: number;
     body: MediaFileQuery
-  }): Observable<Array<FileData>> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentListLastUploadedPost$Response(params).pipe(
+): Observable<Array<FileData>> {
+
+    return this.mediaContentListLastUploadedPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }
@@ -413,7 +523,10 @@ export class MediaService extends BaseService {
    */
   mediaContentSearchGet$Response(params: {
     title: string;
-  }): Observable<StrictHttpResponse<Array<FileShortData>>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<FileShortData>>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentSearchGetPath, 'get');
     if (params) {
@@ -422,7 +535,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -432,16 +546,19 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentSearchGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentSearchGet(params: {
     title: string;
-  }): Observable<Array<FileShortData>> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentSearchGet$Response(params).pipe(
+): Observable<Array<FileShortData>> {
+
+    return this.mediaContentSearchGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<FileShortData>>) => r.body as Array<FileShortData>)
     );
   }
@@ -462,7 +579,10 @@ export class MediaService extends BaseService {
     page?: number;
     page_size?: number;
     body: MediaFileQuery
-  }): Observable<StrictHttpResponse<Array<FileData>>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<FileData>>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentListTagTagNamePostPath, 'post');
     if (params) {
@@ -474,7 +594,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -484,7 +605,7 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentListTagTagNamePost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
@@ -494,9 +615,12 @@ export class MediaService extends BaseService {
     page?: number;
     page_size?: number;
     body: MediaFileQuery
-  }): Observable<Array<FileData>> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentListTagTagNamePost$Response(params).pipe(
+): Observable<Array<FileData>> {
+
+    return this.mediaContentListTagTagNamePost$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }
@@ -514,7 +638,10 @@ export class MediaService extends BaseService {
    */
   mediaContentDeleteFileIdDelete$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, MediaService.MediaContentDeleteFileIdDeletePath, 'delete');
     if (params) {
@@ -523,7 +650,8 @@ export class MediaService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: '*/*'
+      accept: '*/*',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -533,16 +661,19 @@ export class MediaService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `mediaContentDeleteFileIdDelete$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   mediaContentDeleteFileIdDelete(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.mediaContentDeleteFileIdDelete$Response(params).pipe(
+): Observable<void> {
+
+    return this.mediaContentDeleteFileIdDelete$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

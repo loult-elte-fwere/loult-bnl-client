@@ -14,7 +14,7 @@
      [routerLink]="['/archive', fileData.file_id]"
      class="btn btn-outline-primary open-page-btn"><i class="bi-box-arrow-in-up"></i></a>
   <div class="actions">
-    <button [disabled]="roleProvider.isLoggedIn() && !roleProvider.userData.permissions.can_archive"
+    <button [disabled]="!canArchive()"
             (click)="archiveToggle()">
       <img [src]="archiveIcon()" [ngbTooltip]="archiveActionToolTip()">
     </button>

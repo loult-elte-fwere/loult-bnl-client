@@ -26,5 +26,31 @@
       </button>
     </div>
   </div>
+
 </div>
-<bnl-content-wall *ngIf="userData" [userId]="this.userData.userid"></bnl-content-wall>
+
+<form id="user-filters-config" (change)="signalFilteringChange()" class="form-inline">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="query-by-user" name="query-by-user"
+           [(ngModel)]="this.userFilters.query_archived_by_user">
+    <label class="form-check-label" for="query-by-user">
+      Archivés par <bnl-username [userData]="this.userData"></bnl-username>
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="query-by-others" name="query-by-others"
+           [(ngModel)]="this.userFilters.query_archived_by_others">
+    <label class="form-check-label" for="query-by-others">
+      Archivés par d'autres
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="query-submissions" name="query-submissions"
+           [(ngModel)]="this.userFilters.query_submissions">
+    <label class="form-check-label" for="query-submissions">
+      Soumis par <bnl-username [userData]="this.userData"></bnl-username>
+    </label>
+  </div>
+</form>
+
+<bnl-content-wall *ngIf="userData" [userId]="this.userData.userid" [userFilters]="this.userFilters"></bnl-content-wall>

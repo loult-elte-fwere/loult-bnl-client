@@ -7,17 +7,20 @@ import {MediaFileQuery} from '../api/models/media-file-query';
 export class ConfigService {
   public deleteSafeMode = true;
   public fileQueryConfig = {
-    query_audio: true,
-    query_images: true,
     query_archived: true,
     query_not_archived: true,
+    query_media_type: 'all',
     sort_type: 'descending'
   } as MediaFileQuery;
 
   constructor() {
     const queryConfig = window.localStorage.getItem('fileQueryConfig');
     if (queryConfig !== null) {
-      this.fileQueryConfig = JSON.parse(queryConfig) as MediaFileQuery;
+      const config = JSON.parse(queryConfig);
+      // this condition is added to prevent legacy loading of the former query format
+      if (!('query_audio' in config)) {
+        this.fileQueryConfig = config as MediaFileQuery;
+      }
     }
   }
 

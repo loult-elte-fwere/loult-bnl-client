@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {FileData, MediaFileQuery} from '../../api/models';
+import {FileData, MediaFileQuery, UserLibraryFilters} from '../../api/models';
 import {MediaService} from '../../api/services/media.service';
 
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
@@ -27,8 +27,9 @@ const masonryOptions = {
   styleUrls: ['./content-wall.component.scss']
 })
 export class ContentWallComponent implements OnInit, OnChanges {
-  // used when displaying a user's page
+  // used when displaying a user's page or a tag page
   @Input() userId: string;
+  @Input() userFilters: UserLibraryFilters;
   @Input() tagName: string;
 
   filesList: FileData[];
@@ -89,7 +90,10 @@ export class ContentWallComponent implements OnInit, OnChanges {
         user_id: this.userId,
         page: this.paginationService.currentPage,
         page_size: pageSize,
-        body: this.configService.fileQueryConfig
+        body: {
+          base_query: this.configService.fileQueryConfig,
+          users_filters: this.userFilters
+        }
       });
     } else if (this.tagName) {
       promise = this.mediaService.mediaContentListTagTagNamePost({

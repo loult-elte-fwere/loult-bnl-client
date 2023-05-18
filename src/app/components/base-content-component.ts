@@ -59,7 +59,7 @@ export abstract class BaseContentComponent implements OnInit {
     return environment.api_root + '/media/content/image/miniature/' + this.fileData.file_id;
   }
 
-  mediaLink(){
+  mediaLink() {
     return `${environment.api_root}/media/content/${this.fileData.file_type}/${this.fileData.file_id}`;
   }
 
@@ -88,11 +88,21 @@ export abstract class BaseContentComponent implements OnInit {
     return this.userHasArchivedFile ? 'assets/images/icons/star-2.svg' : 'assets/images/icons/star-1.svg';
   }
 
+  canArchive() {
+    if (this.roleProvider.isLoggedIn()) {
+      if (this.fileData.file_type === 'video' && !this.roleProvider.userData.permissions.can_archive_videos) {
+        return false;
+      }
+      return this.roleProvider.userData.permissions.can_archive;
+
+    }
+  }
+
   archiveActionToolTip() {
-    if (this.roleProvider.isLoggedIn() && this.roleProvider.userData.permissions.can_archive) {
+    if (this.canArchive()) {
       return this.userHasArchivedFile ? 'Désarchiver ce document' : 'Archiver ce document';
     } else {
-      return 'Vous ne pouvez pas archiver des documents';
+      return 'Vous ne pouvez pas archiver ce documents';
     }
   }
 
@@ -100,7 +110,7 @@ export abstract class BaseContentComponent implements OnInit {
     if (this.configService.deleteSafeMode) {
       const modalRef = this.modalService.open(ConfirmationModalComponent);
       modalRef.result.then(value => {
-        if (value){
+        if (value) {
           this.mediaService.mediaContentDeleteFileIdDelete({file_id: this.fileData.file_id}).subscribe(() => {
             this.postDeleteAction();
           });
@@ -139,7 +149,7 @@ export abstract class BaseContentComponent implements OnInit {
     modalRef.componentInstance.contentMetadata = {title: this.fileData.title, tags: tagsList} as FileMetaData;
     modalRef.componentInstance.fileData = this.fileData;
     modalRef.result.then(value => {
-      if (value){
+      if (value) {
         this.reloadFileData();
       }
     });

@@ -14,20 +14,15 @@
         non-archivés
       </label>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="query-images" name="query-images"
-             [(ngModel)]="configService.fileQueryConfig.query_images">
-      <label class="form-check-label" for="query-images">
-        images
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="query-audio" name="query-audio"
-             [(ngModel)]="configService.fileQueryConfig.query_audio">
-      <label class="form-check-label" for="query-audio">
-        audio
-      </label>
-    </div>
+    <label for="sorting-select">Type d'archive</label>
+    <select class="form-select" id="media-type-select" name="media-type-select"
+            [(ngModel)]="configService.fileQueryConfig.query_media_type"
+            >
+      <option value="all">Tout</option>
+      <option value="image">Images</option>
+      <option value="audio">Audios</option>
+      <option value="video">Vidéos</option>
+    </select>
     <label for="sorting-select">Tri des documents</label>
     <select class="form-select" id="sorting-select" name="sorting-select"
             [(ngModel)]="configService.fileQueryConfig.sort_type">
@@ -104,6 +99,7 @@
 
   <bnl-username *ngIf="roleProvider.isLoggedIn()" id="current-username"
                 [userData]="roleProvider.userData"
+                [textSize]="'medium'"
                 [ngbPopover]="currentUserPopover"
                 autoClose="outside"
                 triggers="mouseenter"

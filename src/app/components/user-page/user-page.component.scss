@@ -30,3 +30,16 @@
 #profile-username {
   font-size: 0.8rem;
 }
+
+#user-filters-config {
+  background: white;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  margin: 15px auto;
+  padding: 15px 0px;
+
+  .form-check {
+    padding-inline: 30px;
+  }
+}

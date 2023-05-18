@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpContext } from '@angular/common/http';
 import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
@@ -11,9 +11,9 @@ import { map, filter } from 'rxjs/operators';
 
 import { FileData } from '../models/file-data';
 import { FileMetaData } from '../models/file-meta-data';
-import { MediaFileQuery } from '../models/media-file-query';
 import { TagsList } from '../models/tags-list';
 import { UserData } from '../models/user-data';
+import { UserLibraryQuery } from '../models/user-library-query';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,10 @@ export class UsersService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersDataCurrentGet$Response(params?: {
-  }): Observable<StrictHttpResponse<UserData>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<UserData>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersDataCurrentGetPath, 'get');
     if (params) {
@@ -46,7 +49,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -56,15 +60,18 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersDataCurrentGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   usersDataCurrentGet(params?: {
-  }): Observable<UserData> {
+  },
+  context?: HttpContext
 
-    return this.usersDataCurrentGet$Response(params).pipe(
+): Observable<UserData> {
+
+    return this.usersDataCurrentGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<UserData>) => r.body as UserData)
     );
   }
@@ -82,7 +89,10 @@ export class UsersService extends BaseService {
    */
   usersDataUserIdGet$Response(params: {
     user_id: string;
-  }): Observable<StrictHttpResponse<UserData>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<UserData>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersDataUserIdGetPath, 'get');
     if (params) {
@@ -91,7 +101,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -101,16 +112,19 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersDataUserIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   usersDataUserIdGet(params: {
     user_id: string;
-  }): Observable<UserData> {
+  },
+  context?: HttpContext
 
-    return this.usersDataUserIdGet$Response(params).pipe(
+): Observable<UserData> {
+
+    return this.usersDataUserIdGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<UserData>) => r.body as UserData)
     );
   }
@@ -127,7 +141,10 @@ export class UsersService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersDataAllGet$Response(params?: {
-  }): Observable<StrictHttpResponse<Array<UserData>>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<UserData>>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersDataAllGetPath, 'get');
     if (params) {
@@ -135,7 +152,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -145,15 +163,18 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersDataAllGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   usersDataAllGet(params?: {
-  }): Observable<Array<UserData>> {
+  },
+  context?: HttpContext
 
-    return this.usersDataAllGet$Response(params).pipe(
+): Observable<Array<UserData>> {
+
+    return this.usersDataAllGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<UserData>>) => r.body as Array<UserData>)
     );
   }
@@ -173,8 +194,11 @@ export class UsersService extends BaseService {
     user_id: string;
     page?: number;
     page_size?: number;
-    body: MediaFileQuery
-  }): Observable<StrictHttpResponse<Array<FileData>>> {
+    body: UserLibraryQuery
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<FileData>>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersLibraryListUserIdPostPath, 'post');
     if (params) {
@@ -186,7 +210,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -196,7 +221,7 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersLibraryListUserIdPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
@@ -205,10 +230,13 @@ export class UsersService extends BaseService {
     user_id: string;
     page?: number;
     page_size?: number;
-    body: MediaFileQuery
-  }): Observable<Array<FileData>> {
+    body: UserLibraryQuery
+  },
+  context?: HttpContext
 
-    return this.usersLibraryListUserIdPost$Response(params).pipe(
+): Observable<Array<FileData>> {
+
+    return this.usersLibraryListUserIdPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<FileData>>) => r.body as Array<FileData>)
     );
   }
@@ -226,7 +254,10 @@ export class UsersService extends BaseService {
    */
   usersArchiveFileIdPost$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersArchiveFileIdPostPath, 'post');
     if (params) {
@@ -235,7 +266,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: '*/*'
+      accept: '*/*',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -245,16 +277,19 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersArchiveFileIdPost$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   usersArchiveFileIdPost(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.usersArchiveFileIdPost$Response(params).pipe(
+): Observable<void> {
+
+    return this.usersArchiveFileIdPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -272,7 +307,10 @@ export class UsersService extends BaseService {
    */
   usersArchiveFileIdDelete$Response(params: {
     file_id: string;
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersArchiveFileIdDeletePath, 'delete');
     if (params) {
@@ -281,7 +319,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: '*/*'
+      accept: '*/*',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -291,16 +330,19 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersArchiveFileIdDelete$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   usersArchiveFileIdDelete(params: {
     file_id: string;
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.usersArchiveFileIdDelete$Response(params).pipe(
+): Observable<void> {
+
+    return this.usersArchiveFileIdDelete$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -319,7 +361,10 @@ export class UsersService extends BaseService {
   usersMetadataEditFileIdPatch$Response(params: {
     file_id: string;
     body: FileMetaData
-  }): Observable<StrictHttpResponse<void>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersMetadataEditFileIdPatchPath, 'patch');
     if (params) {
@@ -329,7 +374,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: '*/*'
+      accept: '*/*',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -339,7 +385,7 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersMetadataEditFileIdPatch$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
@@ -347,9 +393,12 @@ export class UsersService extends BaseService {
   usersMetadataEditFileIdPatch(params: {
     file_id: string;
     body: FileMetaData
-  }): Observable<void> {
+  },
+  context?: HttpContext
 
-    return this.usersMetadataEditFileIdPatch$Response(params).pipe(
+): Observable<void> {
+
+    return this.usersMetadataEditFileIdPatch$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -366,7 +415,10 @@ export class UsersService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersTagsListGet$Response(params?: {
-  }): Observable<StrictHttpResponse<TagsList>> {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<TagsList>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.UsersTagsListGetPath, 'get');
     if (params) {
@@ -374,7 +426,8 @@ export class UsersService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'application/json'
+      accept: 'application/json',
+      context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -384,15 +437,18 @@ export class UsersService extends BaseService {
   }
 
   /**
-   * This method provides access to only to the response body.
+   * This method provides access only to the response body.
    * To access the full response (for headers, for example), `usersTagsListGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   usersTagsListGet(params?: {
-  }): Observable<TagsList> {
+  },
+  context?: HttpContext
 
-    return this.usersTagsListGet$Response(params).pipe(
+): Observable<TagsList> {
+
+    return this.usersTagsListGet$Response(params,context).pipe(
       map((r: StrictHttpResponse<TagsList>) => r.body as TagsList)
     );
   }

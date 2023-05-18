@@ -9,6 +9,7 @@ import {UserData} from '../../../api/models/user-data';
 export class UsernameComponent implements OnInit {
   @Input() userData: UserData;
   @Input() showPopOver = true;
+  @Input() textSize: 'small' | 'medium' = 'small';
 
   constructor() {
   }
@@ -16,8 +17,8 @@ export class UsernameComponent implements OnInit {
   ngOnInit() {
   }
 
-  getColor() {
-    return 'color : ' + this.userData.color;
+  fontSize() {
+    return this.textSize === 'small' ? '0.6rem' : '0.8rem';
   }
 
   getImg() {

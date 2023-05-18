@@ -2,12 +2,13 @@
 <ng-template #popContent>{{userData.uploaded_files_count}} envoyés, {{userData.archived_files_count}}archivés
 </ng-template>
 
-<span [style]="getColor()"
+<span *ngIf="userData"
+      [ngStyle]="{color: userData.color, 'font-size': fontSize()}"
       [routerLink]="['/user', userData.userid]"
       [ngbPopover]="showPopOver ? popContent : null"
       [popoverTitle]="showPopOver ? popTitle : null"
       popoverClass="user-popover"
       placement="top" triggers="mouseenter:mouseleave">
   <img [src]="getImg()" [alt]="userData.pokename + ' ' + userData.adjective">
-  {{userData.pokename}} {{userData.adjective}}
+  {{userData.pokename}}  {{userData.adjective}}
 </span>

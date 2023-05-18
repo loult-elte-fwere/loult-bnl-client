@@ -3,6 +3,10 @@ ngx-masonry {
   margin: auto;
 }
 
+#no-content-msg {
+  width: 100%;
+  text-align: center;
+}
 
 #wall-footer {
   width: 100%;
@@ -12,6 +16,7 @@ ngx-masonry {
     height: 50px;
     width: 100px;
   }
+
 
   .spinner-border {
     width: 4rem;

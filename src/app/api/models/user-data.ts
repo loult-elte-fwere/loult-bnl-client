@@ -9,7 +9,9 @@ export interface UserData {
   last_activity?: string;
   permissions?: Permissions;
   pokename: string;
-  roles?: { [key: string]: string };
+  roles?: {
+[key: string]: string;
+};
   uploaded_files_count?: number;
   userid: string;
 }

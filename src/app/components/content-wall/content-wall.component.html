@@ -1,8 +1,12 @@
-<ngx-masonry [options]="masonryOptions" [ordered]="true" [updateLayout]="true">
+
+
+<ngx-masonry *ngIf="filesList.length !== 0" [options]="masonryOptions" [ordered]="true" [updateLayout]="true">
   <div ngxMasonryItem *ngFor="let fileData of filesList; let first = first;" [prepend]="first">
     <bnl-content-tile class="masonry-item" [fileData]="fileData"></bnl-content-tile>
   </div>
 </ngx-masonry>
+
+<p *ngIf="filesList.length === 0 && !loadingData" id="no-content-msg">Rien à afficher, ripw</p>
 
 <div id="wall-footer" class="d-flex justify-content-center">
   <div *ngIf="loadingData" class="spinner-border" role="status">
