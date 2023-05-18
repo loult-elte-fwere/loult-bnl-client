@@ -2,6 +2,7 @@
 /* eslint-disable */
 export interface Permissions {
   can_archive?: boolean;
+  can_archive_videos?: boolean;
   can_delete_files?: boolean;
   can_delete_users?: boolean;
   can_edit_archived?: boolean;
