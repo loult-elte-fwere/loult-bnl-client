@@ -62,6 +62,10 @@ export class ContentWallComponent implements OnInit, OnChanges {
       this.reset();
       this.loadData();
     });
+    this.eventsService.refreshWall.subscribe(() => {
+      console.log('Refreshed layout');
+      this.masonry.layout();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {

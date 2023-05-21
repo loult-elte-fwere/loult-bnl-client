@@ -30,6 +30,7 @@ import { UsersListComponent } from './components/users-list/users-list.component
 import { TagsListComponent } from './components/tags-list/tags-list.component';
 import { HelpModalComponent } from './components/modals/help-modal/help-modal.component';
 import { UserRolesFormatPipe } from './utils/user-roles-format.pipe';
+import { CustomNgxMasonryDirective } from './utils/custom-ngx-masonry.directive';
 
 // TODO: import https://github.com/wynfred/ngx-masonry/
 
@@ -59,7 +60,8 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     UsersListComponent,
     TagsListComponent,
     HelpModalComponent,
-    UserRolesFormatPipe
+    UserRolesFormatPipe,
+    CustomNgxMasonryDirective
   ],
   imports: [
     BrowserModule,

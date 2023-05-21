@@ -90,14 +90,16 @@
   </div>
 
   <div *ngIf="!roleProvider.isLoggedIn()" id="login-block">
-    <input [(ngModel)]="cookie" class="form-control"
+    <input [(ngModel)]="cookie"
+           class="form-control"
            type="password"
            (keyup.enter)="login()"
            placeholder="Cookie">
     <button class="btn btn-outline-primary" (click)="login()">Valider</button>
   </div>
 
-  <bnl-username *ngIf="roleProvider.isLoggedIn()" id="current-username"
+  <bnl-username *ngIf="roleProvider.isLoggedIn()"
+                id="current-username"
                 [userData]="roleProvider.userData"
                 [textSize]="'medium'"
                 [ngbPopover]="currentUserPopover"

@@ -10,6 +10,7 @@ export class EventsService {
   public userLogout: EventEmitter<void> = new EventEmitter();
   public fileUploaded: EventEmitter<FileData> = new EventEmitter<FileData>();
   public refreshWall: EventEmitter<void> = new EventEmitter<void>();
+  public refreshWallLayout: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {
   }

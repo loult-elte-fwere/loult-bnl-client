@@ -19,4 +19,9 @@ export class ContentTileComponent extends BaseContentComponent implements OnInit
   postDeleteAction() {
     this.fileData = undefined;
   }
+
+  archiveToggle() {
+    super.archiveToggle();
+    this.eventsService.refreshWall.emit();
+  }
 }
